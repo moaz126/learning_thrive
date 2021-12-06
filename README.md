@@ -1,4 +1,4 @@
-# Flutter Splash Screen
+# Flutter learning thrive
 
 A new Flutter application.
 
