@@ -1,4 +1,4 @@
-# Flutter learning thrive
+# learning thrive
 
 A new Flutter application.
 
