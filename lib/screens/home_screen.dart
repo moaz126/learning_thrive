@@ -3,6 +3,7 @@ import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'LocateTutor.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,6 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: Text("Logout"),
                   onPressed: () {
                     logout(context);
+                  }),
+              SizedBox(
+                height: 15,
+              ),
+              ActionChip(
+                  label: Text("Locate Tutor"),
+                  onPressed: () {
+                    const LocateTutor();
                   }),
             ],
           ),
