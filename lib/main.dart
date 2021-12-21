@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
+import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/login_screen.dart';
 
 Future<void> main() async {
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LocateTutor()));
+          MaterialPageRoute(builder: (_) => Calendar()));
     });
   }
 
