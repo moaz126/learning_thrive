@@ -3,6 +3,8 @@ import 'package:learning_thrive/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:learning_thrive/screens/tutor_login.dart/tutor_home_screen.dart';
+import 'package:learning_thrive/screens/tutor_login.dart/tutor_registration_screen.dart';
 
 class TLoginScreen extends StatefulWidget {
   const TLoginScreen({Key? key}) : super(key: key);
@@ -138,7 +140,7 @@ class _LoginScreenState extends State<TLoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          RegistrationScreen()));
+                                          TRegistrationScreen()));
                             },
                             child: Text(
                               "SignUp",
@@ -168,7 +170,7 @@ class _LoginScreenState extends State<TLoginScreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                      MaterialPageRoute(builder: (context) => THomeScreen())),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 
 import 'LocateTutor.dart';
 import 'login_screen.dart';
@@ -77,11 +78,19 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 15,
               ),
-              ActionChip(
-                  label: Text("Locate Tutor"),
-                  onPressed: () {
-                    const LocateTutor();
-                  }),
+              RoundedButton(
+              text: "Locate Tutor",
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LocateTutor();
+                    },
+                  ),
+                );
+              },
+            ),
             ],
           ),
         ),

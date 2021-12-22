@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
+import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 
 import 'tutor_login_screen.dart';
 
@@ -48,31 +50,47 @@ class _HomeScreenState extends State<THomeScreen> {
                 child: Image.asset("assets/images/picture2.png",
                     fit: BoxFit.contain),
               ),
-              Text(
+              const Text(
                 "Welcome Back",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text("${loggedInUser.firstName} ${loggedInUser.secondName}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black54,
                     fontWeight: FontWeight.w500,
                   )),
               Text("${loggedInUser.email}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black54,
                     fontWeight: FontWeight.w500,
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               ActionChip(
-                  label: Text("Logout"),
+                  label: const Text("Logout"),
                   onPressed: () {
                     logout(context);
                   }),
+              const SizedBox(
+                height: 15,
+              ),
+              RoundedButton(
+              text: "Schedule Meeting",
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return schedule_meeting();
+                    },
+                  ),
+                );
+              },
+            ),
             ],
           ),
         ),
@@ -84,6 +102,6 @@ class _HomeScreenState extends State<THomeScreen> {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => TLoginScreen()));
+        MaterialPageRoute(builder: (context) => const TLoginScreen()));
   }
 }

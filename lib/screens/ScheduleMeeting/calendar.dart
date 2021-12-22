@@ -2,12 +2,12 @@ import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Calendar extends StatefulWidget {
+class schedule_meeting extends StatefulWidget {
   @override
   _CalendarState createState() => _CalendarState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _CalendarState extends State<schedule_meeting> {
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();

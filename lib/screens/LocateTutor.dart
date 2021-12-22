@@ -78,7 +78,7 @@ class _LocateTutorState extends State<LocateTutor> {
   onSearch(String search) {
     setState(() {
       _foundedUsers = _users
-          .where((user) => user.name.toLowerCase().contains(search))
+          .where((user) => user.username.toLowerCase().contains(search))
           .toList();
     });
   }
@@ -95,16 +95,16 @@ class _LocateTutorState extends State<LocateTutor> {
             onChanged: (value) => onSearch(value),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey[850],
+                fillColor: Colors.grey.shade500,
                 contentPadding: EdgeInsets.all(0),
                 prefixIcon: Icon(
                   Icons.search,
-                  color: Colors.grey.shade500,
+                  color: Colors.black,
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide.none),
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                hintStyle: TextStyle(fontSize: 14, color: Colors.black),
                 hintText: "Search Tutors"),
           ),
         ),
@@ -144,6 +144,7 @@ class _LocateTutorState extends State<LocateTutor> {
                         caption: 'Delete',
                         color: Colors.transparent,
                         icon: Icons.delete,
+                        // ignore: avoid_print
                         onTap: () => print('Delete'),
                       ),
                     ],
@@ -197,6 +198,7 @@ class _LocateTutorState extends State<LocateTutor> {
                 decoration: BoxDecoration(
                     color: user.isFollowedByMe
                         ? Colors.lightBlue
+                        // ignore: use_full_hex_values_for_flutter_colors
                         : Color(0xffffff),
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
