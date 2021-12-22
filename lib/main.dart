@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/login_screen.dart';
+import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => Calendar()));
+          MaterialPageRoute(builder: (_) => WelcomeScreen()));
     });
   }
 
