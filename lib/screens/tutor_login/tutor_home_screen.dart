@@ -1,24 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:learning_thrive/model/user_model.dart';
+import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 
-import 'Assesments/upload_assesments.dart';
-import 'Lecture_material/upload_files.dart';
-import 'Lecture_material/view_lecture.dart';
-import 'login_screen.dart';
+import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
+import 'tutor_login_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class THomeScreen extends StatefulWidget {
+  const THomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<THomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Student Home"),
+        title: const Text("Tutor Home"),
         centerTitle: true,
       ),
       body: Center(
@@ -142,78 +142,59 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 30,
                       ),
-                            RoundedButton(
-                                text: "Locate Tutor",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return LocateTutor();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                            
-                            const SizedBox(
-                              height: 30,
+                      RoundedButton(
+                        text: "Schedule Meeting",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return schedule_meeting();
+                              },
                             ),
-                            RoundedButton(
-                                text: "Lecture Materials",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return ViewLecture();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-
+                          );
+                        },
+                      ),
                       SizedBox(
                         height: 30,
                       ),
                       RoundedButton(
-                                text: "Assesment",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return uploadAssesment();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                               const SizedBox(
-                height: 30,
-              ),
+                        text: "Lecture Materials",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return uploadfile();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
                       RoundedButton(
-                                text: "Schedule",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return schedule_meeting();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                  const SizedBox(
-                height: 30,
-              ),
-              ActionChip(
-                  label: const Text("Logout"),
-                  onPressed: () {
-                    logout(context);
-                  }),
-                     
+                        text: "Assesment",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return uploadAssesment();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ActionChip(
+                          label: const Text("Logout"),
+                          onPressed: () {
+                            logout(context);
+                          }),
                     ],
                   ),
                 ),
@@ -225,55 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container buildTaskItem(String courseTitle, Color color) {
-    return Container(
-      margin: EdgeInsets.only(left: 5, right: 5),
-      padding: EdgeInsets.all(17),
-      alignment: Alignment.center,
-      height: 140,
-      width: 140,
-      decoration: BoxDecoration(
-        color: Color(0XFF343E87),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                height: 10,
-                width: 10,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: 100,
-            child: Text(
-              courseTitle,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
   // the logout function
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()));
+        MaterialPageRoute(builder: (context) => TLoginScreen()));
   }
 }

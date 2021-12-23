@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/login_screen.dart';
 import 'package:learning_thrive/screens/registration_screen.dart';
-import 'package:learning_thrive/screens/tutor_login.dart/tutor_login_screen.dart';
+import 'package:learning_thrive/screens/tutor_login/tutor_login_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/background.dart';
 import 'rounded_button.dart';
 import 'constants.dart';
