@@ -88,14 +88,14 @@ class _LocateTutorState extends State<LocateTutor> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Colors.lightBlue,
         title: Container(
           height: 38,
           child: TextField(
             onChanged: (value) => onSearch(value),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey.shade500,
+                fillColor: Colors.white,
                 contentPadding: EdgeInsets.all(0),
                 prefixIcon: Icon(
                   Icons.search,
@@ -110,7 +110,7 @@ class _LocateTutorState extends State<LocateTutor> {
         ),
       ),
       body: Container(
-        color: Colors.grey.shade900,
+        color: Colors.white,
         child: _foundedUsers.length > 0
             ? ListView.builder(
                 itemCount: _foundedUsers.length,
@@ -153,7 +153,7 @@ class _LocateTutorState extends State<LocateTutor> {
             : Center(
                 child: Text(
                 "No users found",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               )),
       ),
     );
@@ -178,7 +178,7 @@ class _LocateTutorState extends State<LocateTutor> {
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(user.name,
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500)),
+                      color: Colors.black, fontWeight: FontWeight.w500)),
               SizedBox(
                 height: 5,
               ),
@@ -210,8 +210,8 @@ class _LocateTutorState extends State<LocateTutor> {
                     child: Text(user.isFollowedByMe ? 'Contact' : 'Contact',
                         style: TextStyle(
                             color: user.isFollowedByMe
-                                ? Colors.white
-                                : Colors.white)))),
+                                ? Colors.black
+                                : Colors.black)))),
           )
         ],
       ),
