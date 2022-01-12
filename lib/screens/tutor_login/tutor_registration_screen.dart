@@ -24,6 +24,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
   final firstNameEditingController = new TextEditingController();
   final secondNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
+  final discEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
@@ -109,7 +110,30 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ));
-
+      final discField = TextFormField(
+        autofocus: false,
+        controller: discEditingController,
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("Please Enter Your discription");
+          }
+          // reg expression for email validation
+          
+          return null;
+        },
+        onSaved: (value) {
+          firstNameEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.description),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "expertise (e.g web developer)",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
     //password field
     final passwordField = TextFormField(
         autofocus: false,
@@ -218,6 +242,8 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
                     secondNameField,
                     SizedBox(height: 20),
                     emailField,
+                    SizedBox(height: 20),
+                    discField,
                     SizedBox(height: 20),
                     passwordField,
                     SizedBox(height: 20),

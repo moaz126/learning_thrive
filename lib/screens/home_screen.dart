@@ -9,6 +9,7 @@ import 'package:learning_thrive/screens/welcome_screen/components/rounded_button
 import 'Assesments/upload_assesments.dart';
 import 'Lecture_material/upload_files.dart';
 import 'Lecture_material/view_lecture.dart';
+import 'Lecture_material/view_lecture_material.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -166,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return ViewLecture();
+                                        return ViewPage();
                                       },
                                     ),
                                   );

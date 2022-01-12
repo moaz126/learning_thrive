@@ -1,6 +1,8 @@
 import 'package:learning_thrive/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'feedback/feedbackAndRating.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 class LocateTutor extends StatefulWidget {
   const LocateTutor({Key? key}) : super(key: key);
@@ -174,13 +176,23 @@ class _LocateTutorState extends State<LocateTutor> {
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(user.image),
                 )),
-            SizedBox(width: 10),
+            SizedBox(width: 10,),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(user.name,
+              /* Text(user.name,
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w500)),
+                      color: Colors.black, fontWeight: FontWeight.w500)), */
               SizedBox(
                 height: 5,
+              ),
+              TextButton(
+                  child: Text(user.name,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  onPressed: () {
+                    show(user.name);
+                  }),
+              SizedBox(
+                height: 4,
               ),
               Text(user.username, style: TextStyle(color: Colors.grey[500])),
             ])
@@ -216,5 +228,35 @@ class _LocateTutorState extends State<LocateTutor> {
         ],
       ),
     );
+  }
+
+  void show(String name) {
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: const Icon(
+              Icons.star,
+              size: 100,
+              color: Colors.blue,
+            ), // set your own image/icon widget
+            title:"Rate "+ name,
+            description: "Tap a star to give your rating.",
+            submitButton: "SUBMIT",
+            alternativeButton: "Contact us instead?", // optional
+            positiveComment: "We are so happy to hear 😍", // optional
+            negativeComment: "We're sad to hear 😭", // optional
+            accentColor: Colors.blue, // optional
+            onSubmitPressed: (int rating) {
+              print("onSubmitPressed: rating = $rating");
+              // TODO: open the app's page on Google Play / Apple App Store
+            },
+            onAlternativePressed: () {
+              print("onAlternativePressed: do something");
+              // TODO: maybe you want the user to contact you instead of rating a bad review
+            },
+          );
+        });
   }
 }

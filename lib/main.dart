@@ -3,8 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
+import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
 import 'package:learning_thrive/screens/login_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
+
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
