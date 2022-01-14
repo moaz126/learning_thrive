@@ -3,6 +3,7 @@ import 'package:learning_thrive/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,6 +23,32 @@ class _LoginScreenState extends State<LoginScreen> {
   // firebase
   final _auth = FirebaseAuth.instance;
 
+//for stay login
+  late SharedPreferences logindata;
+  late bool newuser;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_if_already_login();
+  }
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    print(newuser);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
+  }
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+//
   // string for displaying the error Message
   String? errorMessage;
 
@@ -88,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.lightBlue[900],
       child: MaterialButton(
-          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             signIn(emailController.text, passwordController.text);
@@ -165,8 +192,16 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
+            /* .then((value) => async{
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('email',email)
+            }) */
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
+                  //for stay login
+                  logindata.setBool('login', false),
+                  logindata.setString('username', email),
+                  //
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreen())),
                 });

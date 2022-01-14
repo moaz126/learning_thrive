@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_thrive/screens/LocateTutor.dart';
-import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
-import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
-import 'package:learning_thrive/screens/login_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<void> main() async {
@@ -41,8 +37,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => WelcomeScreen()));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => WelcomeScreen()));
     });
   }
 
@@ -92,4 +88,11 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Future<void> staylogin() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var email = prefs.getString('email');
+  runApp(MaterialApp(home: email == null ? WelcomeScreen(): const HomePage()));
 }

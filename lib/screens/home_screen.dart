@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Assesments/upload_assesments.dart';
 import 'Lecture_material/upload_files.dart';
@@ -22,10 +23,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-
+//for stay login
+  late SharedPreferences logindata;
+  late var username;
+ // 
+  
   @override
   void initState() {
+     // TODO: implement initState
     super.initState();
+    initial();
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -35,7 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     });
   }
-
+//for stay login
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+       username = logindata.getString('username');
+    });
+  }
+//
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,78 +157,78 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 30,
                       ),
-                            RoundedButton(
-                                text: "Locate Tutor",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return LocateTutor();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                            
-                            const SizedBox(
-                              height: 30,
+                      RoundedButton(
+                        text: "Locate Tutor",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return LocateTutor();
+                              },
                             ),
-                            RoundedButton(
-                                text: "Lecture Materials",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return ViewPage();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      RoundedButton(
+                        text: "Lecture Materials",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ViewPage();
+                              },
+                            ),
+                          );
+                        },
+                      ),
                       SizedBox(
                         height: 30,
                       ),
                       RoundedButton(
-                                text: "Assesment",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return uploadAssesment();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                               const SizedBox(
-                height: 30,
-              ),
+                        text: "Assesment",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return uploadAssesment();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
                       RoundedButton(
-                                text: "Schedule",
-                                press: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return schedule_meeting();
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                  const SizedBox(
-                height: 30,
-              ),
-              ActionChip(
-                  label: const Text("Logout"),
-                  onPressed: () {
-                    logout(context);
-                  }),
-                     
+                        text: "Schedule",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return schedule_meeting();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ActionChip(
+                          label: const Text("Logout"),
+                          onPressed: () /* async */ {
+                            /* SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove('email'); */
+                            logout(context);
+                          }),
                     ],
                   ),
                 ),
@@ -273,6 +287,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   // the logout function
   Future<void> logout(BuildContext context) async {
+    //for stay login
+    logindata.setBool('login', true);
+    //
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
