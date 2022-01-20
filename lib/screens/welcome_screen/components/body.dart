@@ -24,9 +24,13 @@ class Body extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.05),
-            SvgPicture.asset(
+            /* SvgPicture.asset(
               "assets/images/chat.svg",
               height: size.height * 0.45,
+            ), */
+            Image.asset(
+              "assets/images/welcome.png",
+              height: size.height * 0.5,
             ),
             Text(
               "ARE YOU",
