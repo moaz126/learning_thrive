@@ -250,7 +250,6 @@ class _LocateTutorState extends State<LocateTutor> {
             accentColor: Colors.blue, // optional
             onSubmitPressed: (int rating) {
               print("onSubmitPressed: rating = $rating");
-              // TODO: open the app's page on Google Play / Apple App Store
             },
             onAlternativePressed: () {
               print("onAlternativePressed: do something");
