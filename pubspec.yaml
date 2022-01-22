@@ -35,6 +35,7 @@ dependencies:
   firebase_storage: ^10.2.4
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.0
   flutter_slidable: ^1.1.0
   flutter_svg: ^1.0.0
   fluttertoast: ^8.0.8
@@ -42,12 +43,12 @@ dependencies:
   path_provider: ^2.0.8
   rating_dialog: ^2.0.3
   shared_preferences: ^2.0.12
-  smooth_star_rating: ^1.1.1
+  # smooth_star_rating: ^1.1.1
   table_calendar: ^3.0.3
 dependency_overrides:
   flutter_slidable: ^0.6.0
   rating_dialog: ^1.0.0
-  smooth_star_rating: ^1.0.4+2
+  #smooth_star_rating: ^1.0.4+2
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -72,6 +73,7 @@ flutter:
     - assets/images/main_top.png
     - assets/images/docx.jpg
     - assets/images/welcome.png
+    - assets/images/contact us.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

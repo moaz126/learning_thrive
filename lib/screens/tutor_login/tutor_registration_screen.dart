@@ -110,6 +110,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ));
+        //discription field
       final discField = TextFormField(
         autofocus: false,
         controller: discEditingController,
