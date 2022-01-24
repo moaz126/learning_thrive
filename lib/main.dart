@@ -89,10 +89,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-Future<void> staylogin() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var email = prefs.getString('email');
-  runApp(MaterialApp(home: email == null ? WelcomeScreen(): const HomePage()));
-}
