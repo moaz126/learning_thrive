@@ -1,9 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:learning_thrive/model/user_model.dart';
+import 'package:learning_thrive/model/tutor_model.dart';
 import 'package:learning_thrive/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:learning_thrive/api/firebase_api.dart';
+import 'package:learning_thrive/widget/button_widget.dart';
+
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
+import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 
 class TRegistrationScreen extends StatefulWidget {
   const TRegistrationScreen({Key? key}) : super(key: key);
@@ -27,9 +39,12 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
   final discEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
+  UploadTask? task;
+  File? file;
 
   @override
   Widget build(BuildContext context) {
+    final fileName = file != null ? basename(file!.path) : 'No File Selected';
     //first name field
     final firstNameField = TextFormField(
         autofocus: false,
@@ -110,8 +125,8 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ));
-        //discription field
-      final discField = TextFormField(
+    //discription field
+    final discField = TextFormField(
         autofocus: false,
         controller: discEditingController,
         keyboardType: TextInputType.text,
@@ -120,7 +135,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
             return ("Please Enter Your discription");
           }
           // reg expression for email validation
-          
+
           return null;
         },
         onSaved: (value) {
@@ -187,6 +202,25 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
           ),
         ));
 
+    final selectfile = ButtonWidget(
+      text: 'Select File',
+      icon: Icons.attach_file,
+      onClicked: selectFile,
+    );
+
+    final textfile = Text(
+      fileName,
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    );
+
+    final uploadfile = ButtonWidget(
+      text: 'Upload File',
+      icon: Icons.cloud_upload_outlined,
+      onClicked: uploadFile,
+    );
+
+    task != null ? buildUploadStatus(task!) : Container();
+
     //signup button
     final signUpButton = Material(
       elevation: 5,
@@ -197,6 +231,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             signUp(emailEditingController.text, passwordEditingController.text);
+            
           },
           child: Text(
             "SignUp",
@@ -250,6 +285,12 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
                     SizedBox(height: 20),
                     confirmPasswordField,
                     SizedBox(height: 20),
+                    selectfile,
+                    SizedBox(height: 8),
+                    textfile,
+                    SizedBox(height: 48),
+                    uploadfile,
+                    SizedBox(height: 20),
                     signUpButton,
                     SizedBox(height: 15),
                   ],
@@ -261,12 +302,58 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
       ),
     );
   }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    if (result == null) return;
+    final path = result.files.single.path!;
+
+    setState(() => file = File(path));
+  }
+
+  Future uploadFile() async {
+    if (file == null) return;
+
+    final fileName = basename(file!.path);
+    final destination = 'files/$emailEditingController.text/$fileName';
+
+    task = FirebaseApi.uploadFile(destination, file!);
+    setState(() {});
+
+    if (task == null) return;
+
+    final snapshot = await task!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+
+    print('Download-Link: $urlDownload');
+  }
+
+  Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+        stream: task.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final snap = snapshot.data!;
+            final progress = snap.bytesTransferred / snap.totalBytes;
+            final percentage = (progress * 100).toStringAsFixed(2);
+
+            return Text(
+              '$percentage %',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
   void signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
+      
       try {
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) => {postDetailsToFirestore()})
+            
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
         });
@@ -298,6 +385,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
       }
     }
   }
+
   postDetailsToFirestore() async {
     // calling our firestore
     // calling our user model
@@ -306,22 +394,23 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    UserModel userModel = UserModel();
+    TutorModel tutorModel = TutorModel();
 
     // writing all the values
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.firstName = firstNameEditingController.text;
-    userModel.secondName = secondNameEditingController.text;
+    tutorModel.email = user!.email;
+    tutorModel.uid = user.uid;
+    tutorModel.firstName = firstNameEditingController.text;
+    tutorModel.secondName = secondNameEditingController.text;
+    tutorModel.disc = discEditingController.text;
 
     await firebaseFirestore
-        .collection("users")
+        .collection("Tutors")
         .doc(user.uid)
-        .set(userModel.toMap());
+        .set(tutorModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 
     Navigator.pushAndRemoveUntil(
-        (context),
+        (this.context),
         MaterialPageRoute(builder: (context) => const HomeScreen()),
         (route) => false);
   }
