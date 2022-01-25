@@ -52,7 +52,7 @@ class _LocateTutorState extends State<LocateTutor> {
         false),
     User(
         'Ismail Khan',
-        'Social media marketing expert',
+        'marketing expert',
         'https://images.unsplash.com/photo-1542973748-658653fb3d12?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
     User(
@@ -204,7 +204,7 @@ class _LocateTutorState extends State<LocateTutor> {
           GestureDetector(
             onTap: () {
               setState(() {
-                user.isFollowedByMe = !user.isFollowedByMe;
+                
               });
             },
             child: AnimatedContainer(
@@ -212,15 +212,12 @@ class _LocateTutorState extends State<LocateTutor> {
                 width: 110,
                 duration: Duration(milliseconds: 3),
                 decoration: BoxDecoration(
-                    color: user.isFollowedByMe
-                        ? Colors.lightBlue
-                        // ignore: use_full_hex_values_for_flutter_colors
-                        : Color(0xffffff),
+                    color: Colors.transparent,
+                        
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
-                      color: user.isFollowedByMe
-                          ? Colors.transparent
-                          : Colors.grey.shade700,
+                      color:Colors.black
+                          
                     )),
                 child: Center(
                     child: TextButton(

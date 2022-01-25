@@ -153,8 +153,8 @@ class _CalendarState extends State<studentSchedule> {
             description: "Tap a star to give your rating.",
             submitButton: "SUBMIT",
             alternativeButton: "Contact us instead?", // optional
-            positiveComment: "We are so happy to hear 😍", // optional
-            negativeComment: "We're sad to hear 😭", // optional
+            positiveComment: "Satisfied 😍", // optional
+            negativeComment: "Unsatisfied 😭", // optional
             accentColor: Colors.blue, // optional
             onSubmitPressed: (int rating) {
               print("onSubmitPressed: rating = $rating");

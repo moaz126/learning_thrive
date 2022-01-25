@@ -7,10 +7,12 @@ import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
+import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
 import 'package:learning_thrive/screens/tutor_login/messaging/tutorMessage.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 
 import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
+import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
 import 'tutor_login_screen.dart';
 
 class THomeScreen extends StatefulWidget {
@@ -77,6 +79,16 @@ class _HomeScreenState extends State<THomeScreen> {
             ListTile(
              title:Text("Contact us"),
               trailing: Icon(Icons.contact_support),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return contactus();
+                    },
+                  ),
+                );
+              },
               //textColor: Colors.indigo,
             ),
             ListTile(
@@ -98,7 +110,7 @@ class _HomeScreenState extends State<THomeScreen> {
                             'Are you sure you want to logout?'
                         ),
                         actions: [
-                          FlatButton(
+                          TextButton(
                             child: Text(
                                 'Yes'
                             ),
@@ -107,7 +119,7 @@ class _HomeScreenState extends State<THomeScreen> {
                               Navigator.of(context).pop();
                             },
                           ),
-                          FlatButton(
+                          TextButton(
                             child: Text(
                                 'No'
                             ),
@@ -300,6 +312,6 @@ class _HomeScreenState extends State<THomeScreen> {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => TLoginScreen()));
+        MaterialPageRoute(builder: (context) => WelcomeScreen()));
   }
 }

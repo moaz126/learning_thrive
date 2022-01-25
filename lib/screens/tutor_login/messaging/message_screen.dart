@@ -41,7 +41,7 @@ class MessagesScreen extends StatelessWidget {
             },
           ),
           
-          SizedBox(width: kDefaultPadding / 2),
+          const SizedBox(width: kDefaultPadding / 20),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

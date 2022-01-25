@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
+import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
+import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
+import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 //for stay login
   late SharedPreferences logindata;
   late var username;
- // 
-  
+  //
+
   @override
   void initState() {
-     // TODO: implement initState
+    // TODO: implement initState
     super.initState();
     initial();
     FirebaseFirestore.instance
@@ -44,13 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     });
   }
+
 //for stay login
   void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
-       username = logindata.getString('username');
+      username = logindata.getString('username');
     });
   }
+
 //
   @override
   Widget build(BuildContext context) {
@@ -63,77 +68,78 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              child: Text('Learning Thrive', style: TextStyle(color: Colors.indigo,fontSize: 37.0)),
+              child: Text('Learning Thrive',
+                  style: TextStyle(color: Colors.indigo, fontSize: 37.0)),
               decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFF0F0F0),
-                    Color(0xFFD4E7FE),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                )),
-              ),
-
+                  gradient: LinearGradient(
+                colors: [
+                  Color(0xFFF0F0F0),
+                  Color(0xFFD4E7FE),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )),
+            ),
             ListTile(
-              title:Text("Profile"),
+              title: Text("Profile"),
               trailing: Icon(Icons.person),
-              
-            ),
-             ListTile(
-
-             title:Text("Help"),
-               hoverColor: Colors.white,
-               trailing: Icon(Icons.help),
-
-               //textColor: Colors.indigo,
-               tileColor: Colors.black12,
             ),
             ListTile(
-             title:Text("Contact us"),
+              title: Text("Help"),
+              hoverColor: Colors.white,
+              trailing: Icon(Icons.help),
+
+              //textColor: Colors.indigo,
+              tileColor: Colors.black12,
+            ),
+            ListTile(
+              title: Text("Contact us"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return contactus();
+                    },
+                  ),
+                );
+              },
               trailing: Icon(Icons.contact_support),
               //textColor: Colors.indigo,
             ),
             ListTile(
-             title:Text("Feedback"),
+              title: Text("Feedback"),
               trailing: Icon(Icons.feedback),
               //textColor: Colors.indigo,
               tileColor: Colors.black12,
             ),
             ListTile(
-             title:Text("Logout"),
+              title: Text("Logout"),
               trailing: Icon(Icons.logout),
               //textColor: Colors.indigo,
-              onTap: (){
+              onTap: () {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Text(
-                            'Are you sure you want to logout?'
-                        ),
+                        content: Text('Are you sure you want to logout?'),
                         actions: [
-                          FlatButton(
-                            child: Text(
-                                'Yes'
-                            ),
+                          TextButton(
+                            child: Text('Yes'),
                             onPressed: () async {
                               logout(context);
                               Navigator.of(context).pop();
                             },
                           ),
-                          FlatButton(
-                            child: Text(
-                                'No'
-                            ),
-                            onPressed: (){
+                          TextButton(
+                            child: Text('No'),
+                            onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                         ],
                       );
-                    }
-                );
+                    });
               },
             ),
           ],
@@ -294,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return schedule_meeting();
+                                return studentSchedule();
                               },
                             ),
                           );
@@ -318,6 +324,6 @@ class _HomeScreenState extends State<HomeScreen> {
     //
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()));
+        MaterialPageRoute(builder: (context) => WelcomeScreen()));
   }
 }
