@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_thrive/screens/LocateTutor.dart';
-import 'package:learning_thrive/screens/home_screen.dart';
-import 'package:learning_thrive/screens/tutor_login/messaging/message_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 Future<void> main() async {
@@ -58,36 +55,14 @@ class _SplashScreenState extends State<SplashScreen> {
               'assets/images/picture2.png',
               height: 500,
             ),
-            const SizedBox(
+            /* const SizedBox(
               height: 10,
             ),
             const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+            ) */
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text("Learning Thrive"),
-      ),
-      body: const Center(
-        child: Text("Home page"),
       ),
     );
   }

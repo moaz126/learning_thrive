@@ -4,7 +4,7 @@ import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
 import 'package:learning_thrive/screens/tutor_login/messaging/constants.dart';
 import 'package:flutter/material.dart';
 
-class MessagesScreen extends StatelessWidget {
+class TMessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +37,17 @@ class MessagesScreen extends StatelessWidget {
             icon: const Icon(Icons.calendar_today),
             onPressed: () {
               Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => studentSchedule()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => schedule_meeting()));
             },
           ),
-          
-          SizedBox(width: kDefaultPadding / 2),
+          /* IconButton(
+            icon: const Icon(Icons.videocam),
+            onPressed: () {
+              Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => schedule_meeting()));
+            },
+          ),
+          SizedBox(width: kDefaultPadding / 2), */
         ],
       ),
       bottomNavigationBar: BottomAppBar(

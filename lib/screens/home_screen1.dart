@@ -4,11 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
+import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+
 import 'Assesments/upload_assesments.dart';
 import 'Lecture_material/upload_files.dart';
 import 'Lecture_material/view_lecture.dart';
@@ -26,15 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 //for stay login
-  late SharedPreferences logindata;
-  late var username;
+  /* late SharedPreferences logindata;
+  late var username; */
  // 
   
   @override
   void initState() {
      // TODO: implement initState
     super.initState();
-    initial();
+    //for stay login
+     /* initial(); */
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -45,12 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 //for stay login
-  void initial() async {
+  /* void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
        username = logindata.getString('username');
     });
-  }
+  } */
 //
   @override
   Widget build(BuildContext context) {
@@ -58,86 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Student Home"),
         centerTitle: true,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Learning Thrive', style: TextStyle(color: Colors.indigo,fontSize: 37.0)),
-              decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFF0F0F0),
-                    Color(0xFFD4E7FE),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                )),
-              ),
-
-            ListTile(
-              title:Text("Profile"),
-              trailing: Icon(Icons.person),
-              
-            ),
-             ListTile(
-
-             title:Text("Help"),
-               hoverColor: Colors.white,
-               trailing: Icon(Icons.help),
-
-               //textColor: Colors.indigo,
-               tileColor: Colors.black12,
-            ),
-            ListTile(
-             title:Text("Contact us"),
-              trailing: Icon(Icons.contact_support),
-              //textColor: Colors.indigo,
-            ),
-            ListTile(
-             title:Text("Feedback"),
-              trailing: Icon(Icons.feedback),
-              //textColor: Colors.indigo,
-              tileColor: Colors.black12,
-            ),
-            ListTile(
-             title:Text("Logout"),
-              trailing: Icon(Icons.logout),
-              //textColor: Colors.indigo,
-              onTap: (){
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Text(
-                            'Are you sure you want to logout?'
-                        ),
-                        actions: [
-                          FlatButton(
-                            child: Text(
-                                'Yes'
-                            ),
-                            onPressed: () async {
-                              logout(context);
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          FlatButton(
-                            child: Text(
-                                'No'
-                            ),
-                            onPressed: (){
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: Center(
         child: Padding(
@@ -186,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(width: 1, color: Colors.blue),
+                            border: Border.all(width: 1, color: Colors.white),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.blueGrey.withOpacity(0.2),
@@ -209,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 8,
                             ),
                             Text(
-                              "Hi ${loggedInUser.firstName} ${loggedInUser.secondName}",
+                              "Hi Dude",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w900,
@@ -237,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView(
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                       RoundedButton(
                         text: "Locate Tutor",
@@ -294,12 +214,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return schedule_meeting();
+                                return studentSchedule();
                               },
                             ),
                           );
                         },
                       ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ActionChip(
+                          label: const Text("Logout"),
+                          onPressed: () /* async */ {
+                            /* SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove('email'); */
+                            logout(context);
+                          }),
                     ],
                   ),
                 ),
@@ -311,10 +242,55 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Container buildTaskItem(String courseTitle, Color color) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5),
+      padding: EdgeInsets.all(17),
+      alignment: Alignment.center,
+      height: 140,
+      width: 140,
+      decoration: BoxDecoration(
+        color: Color(0XFF343E87),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 100,
+            child: Text(
+              courseTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   // the logout function
   Future<void> logout(BuildContext context) async {
     //for stay login
-    logindata.setBool('login', true);
+   /*  logindata.setBool('login', true); */
     //
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(

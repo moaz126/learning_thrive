@@ -6,6 +6,8 @@ import 'package:learning_thrive/model/user_model.dart';
 import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
+import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
+import 'package:learning_thrive/screens/tutor_login/messaging/tutorMessage.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 
 import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<THomeScreen> {
   void initState() {
     super.initState();
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("Tutors")
         .doc(user!.uid)
         .get()
         .then((value) {
@@ -41,6 +43,86 @@ class _HomeScreenState extends State<THomeScreen> {
       appBar: AppBar(
         title: const Text("Tutor Home"),
         centerTitle: true,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Learning Thrive', style: TextStyle(color: Colors.indigo,fontSize: 37.0)),
+              decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFF0F0F0),
+                    Color(0xFFD4E7FE),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                )),
+              ),
+
+            ListTile(
+              title:Text("Profile"),
+              trailing: Icon(Icons.person),
+              
+            ),
+             ListTile(
+
+             title:Text("Help"),
+               hoverColor: Colors.white,
+               trailing: Icon(Icons.help),
+
+               //textColor: Colors.indigo,
+               tileColor: Colors.black12,
+            ),
+            ListTile(
+             title:Text("Contact us"),
+              trailing: Icon(Icons.contact_support),
+              //textColor: Colors.indigo,
+            ),
+            ListTile(
+             title:Text("Feedback"),
+              trailing: Icon(Icons.feedback),
+              //textColor: Colors.indigo,
+              tileColor: Colors.black12,
+            ),
+            ListTile(
+             title:Text("Logout"),
+              trailing: Icon(Icons.logout),
+              //textColor: Colors.indigo,
+              onTap: (){
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Text(
+                            'Are you sure you want to logout?'
+                        ),
+                        actions: [
+                          FlatButton(
+                            child: Text(
+                                'Yes'
+                            ),
+                            onPressed: () async {
+                              logout(context);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: Text(
+                                'No'
+                            ),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: Padding(
@@ -112,7 +194,7 @@ class _HomeScreenState extends State<THomeScreen> {
                               height: 8,
                             ),
                             Text(
-                              "Hi Dude",
+                              "Hi ${loggedInUser.firstName} ${loggedInUser.secondName}",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w900,
@@ -143,13 +225,13 @@ class _HomeScreenState extends State<THomeScreen> {
                         height: 30,
                       ),
                       RoundedButton(
-                        text: "Schedule Meeting",
+                        text: "Message",
                         press: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return schedule_meeting();
+                                return TMessagesScreen();
                               },
                             ),
                           );
@@ -190,11 +272,19 @@ class _HomeScreenState extends State<THomeScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      ActionChip(
-                          label: const Text("Logout"),
-                          onPressed: () {
-                            logout(context);
-                          }),
+                      RoundedButton(
+                        text: "Meetings",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return schedule_meeting();
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

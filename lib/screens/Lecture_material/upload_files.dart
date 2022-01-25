@@ -41,6 +41,15 @@ class _MainPageState extends State<uploadfile> {
         centerTitle: true,
       ),
       body: Container(
+        decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFF0F0F0),
+                    Colors.blue.shade200,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                )),
         padding: EdgeInsets.all(32),
         child: Center(
           child: Column(

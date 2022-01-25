@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/login_screen.dart';
-import 'package:learning_thrive/screens/registration_screen.dart';
 import 'package:learning_thrive/screens/tutor_login/tutor_login_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/background.dart';
 import 'rounded_button.dart';
 import 'constants.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               "      WELCOME TO LEARNING THRIVE",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -32,7 +31,7 @@ class Body extends StatelessWidget {
               "assets/images/welcome.png",
               height: size.height * 0.5,
             ),
-            Text(
+            const Text(
               "ARE YOU",
               style: TextStyle(fontWeight: FontWeight.bold,height: 3),
             ),
@@ -44,7 +43,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return LoginScreen();
+                      return const LoginScreen();
                     },
                   ),
                 );
@@ -59,7 +58,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return TLoginScreen();
+                      return const TLoginScreen();
                     },
                   ),
                 );

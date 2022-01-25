@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/api/firebase_api.dart';
+import 'package:learning_thrive/screens/tutor_login/tutor_login_screen.dart';
 import 'package:learning_thrive/widget/button_widget.dart';
 
 import 'dart:io';
@@ -206,6 +207,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
       text: 'Select File',
       icon: Icons.attach_file,
       onClicked: selectFile,
+      
     );
 
     final textfile = Text(
@@ -217,6 +219,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
       text: 'Upload File',
       icon: Icons.cloud_upload_outlined,
       onClicked: uploadFile,
+      
     );
 
     task != null ? buildUploadStatus(task!) : Container();
@@ -316,7 +319,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
-    final destination = 'files/$emailEditingController.text/$fileName';
+    final destination = 'files/Tutor/$emailEditingController.text/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
     setState(() {});
@@ -411,7 +414,7 @@ class _RegistrationScreenState extends State<TRegistrationScreen> {
 
     Navigator.pushAndRemoveUntil(
         (this.context),
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const TLoginScreen()),
         (route) => false);
   }
 }

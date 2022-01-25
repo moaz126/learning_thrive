@@ -1,6 +1,7 @@
 import 'package:learning_thrive/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
 import 'package:learning_thrive/screens/tutor_login/messaging/message_screen.dart';
 import 'feedback/feedbackAndRating.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -15,27 +16,27 @@ class LocateTutor extends StatefulWidget {
 class _LocateTutorState extends State<LocateTutor> {
   List<User> _users = [
     User(
-        'Faysal Abbas',
+        'Muhammad Moaz',
         'Database expert',
         'https://images.unsplash.com/photo-1544348817-5f2cf14b88c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyNjQ2NTExMg&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080',
         false),
     User(
-        'Rida Choudhary',
+        'Usama Waris',
         'Data Analyst',
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit',
+        'https://images.unsplash.com/photo-1541710430735-5fca14c95b00?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
     User(
-        'Kathleen Mcdonough',
+        'Ali Arsam',
         'Digital marketing expert',
         'https://images.unsplash.com/photo-1507081323647-4d250478b919?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b717a6d0469694bbe6400e6bfe45a1da',
         false),
     User(
-        'Kathleen Dyer',
+        'Fazal Abbase',
         'Logo Designer',
         'https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=ddcb7ec744fc63472f2d9e19362aa387',
         false),
     User(
-        'Mikayla Marquez',
+        'Zeshan abbase',
         'Web Developer in Django',
         'https://images.unsplash.com/photo-1541710430735-5fca14c95b00?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
@@ -50,17 +51,17 @@ class _LocateTutorState extends State<LocateTutor> {
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit',
         false),
     User(
-        'Ignacio Schmidt',
+        'Ismail Khan',
         'Social media marketing expert',
         'https://images.unsplash.com/photo-1542973748-658653fb3d12?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
     User(
-        'Clyde Lucas',
+        'Talha anjum',
         'Flutter developer',
         'https://images.unsplash.com/photo-1569443693539-175ea9f007e8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
     User(
-        'Mikayla Marquez',
+        'Mughees azhar',
         'Video animator',
         'https://images.unsplash.com/photo-1541710430735-5fca14c95b00?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false)
@@ -177,7 +178,7 @@ class _LocateTutorState extends State<LocateTutor> {
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(user.image),
                 )),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               /* Text(user.name,
                   style: TextStyle(
@@ -190,7 +191,9 @@ class _LocateTutorState extends State<LocateTutor> {
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w500)),
                   onPressed: () {
-                    show(user.name);
+                    //show(user.name);
+                    Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => MapScreen()));
                   }),
               SizedBox(
                 height: 4,

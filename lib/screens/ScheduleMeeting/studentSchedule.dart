@@ -1,14 +1,16 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class schedule_meeting extends StatefulWidget {
+class studentSchedule extends StatefulWidget {
   @override
   _CalendarState createState() => _CalendarState();
 }
 
-class _CalendarState extends State<schedule_meeting> {
+class _CalendarState extends State<studentSchedule> {
   late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
@@ -110,8 +112,11 @@ class _CalendarState extends State<schedule_meeting> {
                 event.title,
               ),
               
-              subtitle:TextButton(
-                child: Text('Start Meeting'),
+              
+            ),
+          ),
+          TextButton(
+                child: Text('Join Meeting'),
                 style: TextButton.styleFrom(
                   
                   primary: Colors.white,
@@ -124,56 +129,46 @@ class _CalendarState extends State<schedule_meeting> {
                   
                 ),
                 onPressed: () {
-                  print('Pressed');
+                  show();
                 },
               ),
-              
-            ),
-          ),
         ],
+        
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Add Meeting"),
-            content: TextFormField(
-              controller: _eventController,
-            ),
-            actions: [
-              TextButton(
-                child: Text("Cancel"),
-                onPressed: () => Navigator.pop(context),
-              ),
-              TextButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  if (_eventController.text.isEmpty) {
-
-                  } else {
-                    if (selectedEvents[selectedDay] != null) {
-                      selectedEvents[selectedDay]!.add(
-                        Event(title: _eventController.text),
-                      );
-                    } else {
-                      selectedEvents[selectedDay] = [
-                        Event(title: _eventController.text)
-                      ];
-                    }
-
-                  }
-                  Navigator.pop(context);
-                  _eventController.clear();
-                  setState((){});
-                  return;
-                },
-              ),
-            ],
-          ),
-        ),
-        label: Text("Add Meeting"),
-        icon: Icon(Icons.add),
-      ),
+      
     );
+  }
+  void show() {
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: const Icon(
+              Icons.star,
+              size: 100,
+              color: Colors.blue,
+            ), // set your own image/icon widget
+            title:"Rate "+ "",
+            description: "Tap a star to give your rating.",
+            submitButton: "SUBMIT",
+            alternativeButton: "Contact us instead?", // optional
+            positiveComment: "We are so happy to hear 😍", // optional
+            negativeComment: "We're sad to hear 😭", // optional
+            accentColor: Colors.blue, // optional
+            onSubmitPressed: (int rating) {
+              print("onSubmitPressed: rating = $rating");
+              // TODO: open the app's page on Google Play / Apple App Store
+            },
+            onAlternativePressed: () {
+              print("onAlternativePressed: do something");
+              // TODO: maybe you want the user to contact you instead of rating a bad review
+              
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => contactus()));
+    
+            },
+          );
+        });
   }
 }
