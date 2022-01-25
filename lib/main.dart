@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/screens/LocateTutor.dart';
+import 'package:learning_thrive/screens/home_screen.dart';
+import 'package:learning_thrive/screens/tutor_login/messaging/message_screen.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

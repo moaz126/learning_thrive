@@ -24,15 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 //for stay login
-  late SharedPreferences logindata;
-  late var username;
+  /* late SharedPreferences logindata;
+  late var username; */
  // 
   
   @override
   void initState() {
      // TODO: implement initState
     super.initState();
-    initial();
+    //for stay login
+     /* initial(); */
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -43,12 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 //for stay login
-  void initial() async {
+  /* void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
        username = logindata.getString('username');
     });
-  }
+  } */
 //
   @override
   Widget build(BuildContext context) {
@@ -288,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // the logout function
   Future<void> logout(BuildContext context) async {
     //for stay login
-    logindata.setBool('login', true);
+   /*  logindata.setBool('login', true); */
     //
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(

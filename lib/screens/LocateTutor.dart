@@ -1,6 +1,7 @@
 import 'package:learning_thrive/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:learning_thrive/screens/tutor_login/messaging/message_screen.dart';
 import 'feedback/feedbackAndRating.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
@@ -219,11 +220,14 @@ class _LocateTutorState extends State<LocateTutor> {
                           : Colors.grey.shade700,
                     )),
                 child: Center(
-                    child: Text(user.isFollowedByMe ? 'Contact' : 'Contact',
-                        style: TextStyle(
-                            color: user.isFollowedByMe
-                                ? Colors.black
-                                : Colors.black)))),
+                    child: TextButton(
+                  child: Text('Contact',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  onPressed: () {
+                    Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => MessagesScreen()));
+                  }),)),
           )
         ],
       ),

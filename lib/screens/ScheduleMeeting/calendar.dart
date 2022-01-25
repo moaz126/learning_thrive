@@ -1,3 +1,4 @@
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -107,6 +108,24 @@ class _CalendarState extends State<schedule_meeting> {
             (Event event) => ListTile(
               title: Text(
                 event.title,
+              ),
+              
+              subtitle:TextButton(
+                child: Text('Start Meeting'),
+                style: TextButton.styleFrom(
+                  
+                  primary: Colors.white,
+                  onSurface: Colors.white,
+                  backgroundColor: Colors.lightBlue,
+                  shadowColor: Colors.red,
+                  elevation: 5,
+                  padding: EdgeInsets.all(5.0),
+                 
+                  
+                ),
+                onPressed: () {
+                  print('Pressed');
+                },
               ),
             ),
           ),

@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
 
 //for stay login
-  late SharedPreferences logindata;
+  /* late SharedPreferences logindata;
   late bool newuser;
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
+  } */
 //
   // string for displaying the error Message
   String? errorMessage;
@@ -199,8 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
                   //for stay login
-                  logindata.setBool('login', false),
-                  logindata.setString('username', email),
+                  /* logindata.setBool('login', false),
+                  logindata.setString('username', email), */
                   //
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreen())),
