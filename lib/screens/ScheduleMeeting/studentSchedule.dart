@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:learning_thrive/model/tutor_model.dart';
+import 'package:learning_thrive/model/user_model.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
@@ -18,10 +22,22 @@ class _CalendarState extends State<studentSchedule> {
 
   TextEditingController _eventController = TextEditingController();
 
+  var petCollection;
+  /* CollectionReference<Map<String, dynamic>> user =
+  FirebaseFirestore.instance.collection("Tutors");
+  TutorModel loggedInUser = TutorModel(); */
   @override
   void initState() {
     selectedEvents = {};
     super.initState();
+    /* FirebaseFirestore.instance
+        .collection("Tutors")
+        .doc("8wkYZxYrnNTm39A6GfAWcegMzgH2")
+        .get()
+        .then((value) {
+      this.loggedInUser = TutorModel.fromMap(value.data());
+      setState(() {});
+    }); */
   }
 
   List<Event> _getEventsfromDay(DateTime date) {
@@ -111,33 +127,27 @@ class _CalendarState extends State<studentSchedule> {
               title: Text(
                 event.title,
               ),
-              
-              
             ),
           ),
           TextButton(
-                child: Text('Join Meeting'),
-                style: TextButton.styleFrom(
-                  
-                  primary: Colors.white,
-                  onSurface: Colors.white,
-                  backgroundColor: Colors.lightBlue,
-                  shadowColor: Colors.red,
-                  elevation: 5,
-                  padding: EdgeInsets.all(5.0),
-                 
-                  
-                ),
-                onPressed: () {
-                  show();
-                },
-              ),
+            child: Text('Join Meeting'),
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              onSurface: Colors.white,
+              backgroundColor: Colors.lightBlue,
+              shadowColor: Colors.red,
+              elevation: 5,
+              padding: EdgeInsets.all(5.0),
+            ),
+            onPressed: () {
+              show();
+            },
+          ),
         ],
-        
       ),
-      
     );
   }
+
   void show() {
     showDialog(
         context: context,
@@ -149,24 +159,33 @@ class _CalendarState extends State<studentSchedule> {
               size: 100,
               color: Colors.blue,
             ), // set your own image/icon widget
-            title:"Rate "+ "",
+            title: "Rate " + "",
             description: "Tap a star to give your rating.",
             submitButton: "SUBMIT",
             alternativeButton: "Contact us instead?", // optional
             positiveComment: "Satisfied 😍", // optional
             negativeComment: "Unsatisfied 😭", // optional
             accentColor: Colors.blue, // optional
-            onSubmitPressed: (int rating) {
+            onSubmitPressed: (int rating) async {
               print("onSubmitPressed: rating = $rating");
+              
+              var collection = FirebaseFirestore.instance.collection('Tutors');
+              collection
+                  .doc("2eWVFGbjSwgUSmPGm8UslG3jBhZ2")
+                  .update({"rating": "$rating"}).then((result) {
+                print("new USer true");
+              }).catchError((onError) {
+                print("onError");
+              });
+
               // TODO: open the app's page on Google Play / Apple App Store
             },
             onAlternativePressed: () {
               print("onAlternativePressed: do something");
               // TODO: maybe you want the user to contact you instead of rating a bad review
-              
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => contactus()));
-    
+
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => contactus()));
             },
           );
         });

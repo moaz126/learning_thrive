@@ -27,7 +27,7 @@ class _LocateTutorState extends State<LocateTutor> {
         false),
     User(
         'Ali Arsam',
-        'Digital marketing expert',
+        'Marketing expert',
         'https://images.unsplash.com/photo-1507081323647-4d250478b919?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b717a6d0469694bbe6400e6bfe45a1da',
         false),
     User(
@@ -37,7 +37,7 @@ class _LocateTutorState extends State<LocateTutor> {
         false),
     User(
         'Zeshan abbase',
-        'Web Developer in Django',
+        'Web Developer',
         'https://images.unsplash.com/photo-1541710430735-5fca14c95b00?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
         false),
     User(
@@ -123,35 +123,7 @@ class _LocateTutorState extends State<LocateTutor> {
                     actionPane: SlidableDrawerActionPane(),
                     actionExtentRatio: 0.25,
                     child: userComponent(user: _foundedUsers[index]),
-                    actions: <Widget>[
-                      new IconSlideAction(
-                        caption: 'Archive',
-                        color: Colors.transparent,
-                        icon: Icons.archive,
-                        onTap: () => print("archive"),
-                      ),
-                      new IconSlideAction(
-                        caption: 'Share',
-                        color: Colors.transparent,
-                        icon: Icons.share,
-                        onTap: () => print('Share'),
-                      ),
-                    ],
-                    secondaryActions: <Widget>[
-                      new IconSlideAction(
-                        caption: 'More',
-                        color: Colors.transparent,
-                        icon: Icons.more_horiz,
-                        onTap: () => print('More'),
-                      ),
-                      new IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.transparent,
-                        icon: Icons.delete,
-                        // ignore: avoid_print
-                        onTap: () => print('Delete'),
-                      ),
-                    ],
+                    
                   );
                 })
             : Center(
@@ -183,7 +155,7 @@ class _LocateTutorState extends State<LocateTutor> {
               /* Text(user.name,
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w500)), */
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               TextButton(

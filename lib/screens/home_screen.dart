@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import '../messaging/pages/home_page.dart';
 import 'Assesments/upload_assesments.dart';
 import 'Lecture_material/upload_files.dart';
 import 'Lecture_material/view_lecture.dart';
@@ -29,15 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 //for stay login
-  late SharedPreferences logindata;
-  late var username;
+  /* late SharedPreferences logindata;
+  late var username; */
   //
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initial();
+    //initial();
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -49,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 //for stay login
-  void initial() async {
+  /* void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
       username = logindata.getString('username');
     });
-  }
+  } */
 
 //
   @override
@@ -252,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return LocateTutor();
+                                return HomePage();
                               },
                             ),
                           );
@@ -320,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // the logout function
   Future<void> logout(BuildContext context) async {
     //for stay login
-    logindata.setBool('login', true);
+    //logindata.setBool('login', true);
     //
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(

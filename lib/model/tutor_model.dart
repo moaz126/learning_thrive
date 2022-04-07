@@ -4,8 +4,10 @@ class TutorModel {
   String? firstName;
   String? secondName;
   String? disc;
+  int? rating;
 
-  TutorModel({this.uid, this.email, this.firstName, this.secondName,this.disc});
+  TutorModel(
+      {this.uid, this.email, this.firstName, this.secondName, this.disc,this.rating=0});
 
   // receiving data from server
   factory TutorModel.fromMap(map) {
@@ -14,7 +16,8 @@ class TutorModel {
       email: map['email'],
       firstName: map['firstName'],
       secondName: map['secondName'],
-      disc:map['disc'],
+      disc: map['disc'],
+      rating: map['rating'],
     );
   }
 
@@ -25,7 +28,8 @@ class TutorModel {
       'email': email,
       'firstName': firstName,
       'secondName': secondName,
-      'disc':disc,
+      'disc': disc,
+      'rating':rating,
     };
   }
 }

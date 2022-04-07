@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:learning_thrive/model/firebase_file.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseApi {
   static UploadTask? uploadFile(String destination, File file) {
     try {
