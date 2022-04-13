@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_thrive/messaging/constants/app_constants.dart';
+import 'package:learning_thrive/TMessage/constants/app_constants.dart';
 import 'package:learning_thrive/messaging/constants/color_constants.dart';
 import 'package:learning_thrive/messaging/constants/constants.dart';
 import 'package:learning_thrive/model/models.dart';

@@ -16,6 +16,7 @@ import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/tutor_model.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
@@ -30,7 +31,7 @@ class ChatPage extends StatefulWidget {
 
 class ChatPageState extends State<ChatPage> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
+  TutorModel loggedInUser = TutorModel();
 //for stay login
   /* late SharedPreferences logindata;
   late var username; */
@@ -76,11 +77,11 @@ class ChatPageState extends State<ChatPage> {
     super.initState();
     //initial();
     FirebaseFirestore.instance
-        .collection("users")
+        .collection(FirestoreConstants.pathTutorCollection)
         .doc(user!.uid)
         .get()
         .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
+      this.loggedInUser = TutorModel.fromMap(value.data());
       setState(() {});
     });
 

@@ -18,7 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'package:learning_thrive/model/models.dart';
-import '../../screens/GoogleAPI/Locationn.dart';
+import '../../model/tutor_model.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   HomePageState({Key? key});
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
+  TutorModel loggedInUser = TutorModel();
 //for stay login
   /* late SharedPreferences logindata;
   late var username; */
@@ -89,7 +89,7 @@ class HomePageState extends State<HomePage> {
         .doc(user!.uid)
         .get()
         .then((value) async {
-      this.loggedInUser = UserModel.fromMap(value.data());
+      this.loggedInUser = TutorModel.fromMap(value.data());
       setState(() {});
     });
 
@@ -301,7 +301,7 @@ class HomePageState extends State<HomePage> {
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     //Get all tutors here fro pathTutorCollection
-                    stream: homeProvider.getStreamFireStore(FirestoreConstants.pathTutorCollection, _limit, _textSearch),
+                    stream: homeProvider.getStreamFireStore(FirestoreConstants.pathUserCollection, _limit, _textSearch),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         if ((snapshot.data?.docs.length ?? 0) > 0) {
@@ -486,10 +486,8 @@ class HomePageState extends State<HomePage> {
                             maxLines: 1,
                             style: TextStyle(color: ColorConstants.primaryColor),
                           ),
-                          
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 5),
-                          
                         ),
                         Container(
                           child: Text(
@@ -504,7 +502,7 @@ class HomePageState extends State<HomePage> {
                           child: SmoothStarRating(
                               rating: rating,
                               isReadOnly: true,
-                              size: 20,
+                              size: 30,
                               starCount: 5,
                               color: Color.fromARGB(255, 34, 129, 238),
                               borderColor: Color.fromARGB(255, 34, 129, 238) ,
@@ -513,34 +511,6 @@ class HomePageState extends State<HomePage> {
                           alignment: Alignment.centerLeft,
                           margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                         ),
-                        
-                        Container(
-                          child:AnimatedContainer(
-                                  height: 35,
-                                  width: 80,
-                                  duration: Duration(milliseconds: 3),
-                                  decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                          
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        color:Colors.black
-                                            
-                                      )),
-                                  child: Center(
-                                      child: TextButton(
-                                    child: Text('Locate',
-                                        style: TextStyle(
-                                            color: Colors.black, fontWeight: FontWeight.w500)),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                            .pushReplacement(MaterialPageRoute(builder: (_) => MapScreen()));
-                                    }),)),
-                          alignment: Alignment.topRight,
-                          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),     
-                        ),
-                        
-                        
 
                       ],
                     ),

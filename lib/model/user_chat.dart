@@ -2,39 +2,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:learning_thrive/messaging/constants/constants.dart';
 
 class UserChat {
-  String id;
+  String uid;
   String photoUrl;
-  String nickname;
-  String aboutMe;
+  String firstName;
+  String lastName;
+  String disc;
 
-  UserChat({required this.id, required this.photoUrl, required this.nickname, required this.aboutMe});
+  UserChat(
+      {required this.uid,
+      required this.photoUrl,
+      required this.firstName,
+      required this.lastName,
+      required this.disc});
 
   Map<String, String> toJson() {
     return {
-      FirestoreConstants.nickname: nickname,
-      FirestoreConstants.aboutMe: aboutMe,
+      FirestoreConstants.firstName: firstName,
+      FirestoreConstants.lastName: lastName,
+      FirestoreConstants.aboutMe: disc,
       FirestoreConstants.photoUrl: photoUrl,
     };
   }
 
   factory UserChat.fromDocument(DocumentSnapshot doc) {
-    String aboutMe = "";
+    String disc = "";
     String photoUrl = "";
-    String nickname = "";
+    String firstName = "";
+    String lastName = "";
     try {
-      aboutMe = doc.get(FirestoreConstants.aboutMe);
+      disc = doc.get(FirestoreConstants.disc);
     } catch (e) {}
     try {
       photoUrl = doc.get(FirestoreConstants.photoUrl);
     } catch (e) {}
     try {
-      nickname = doc.get(FirestoreConstants.nickname);
+      firstName = doc.get(FirestoreConstants.firstName);
+    } catch (e) {}
+    try {
+      lastName = doc.get(FirestoreConstants.lastName);
     } catch (e) {}
     return UserChat(
-      id: doc.id,
+      uid: doc.id,
       photoUrl: photoUrl,
-      nickname: nickname,
-      aboutMe: aboutMe,
+      firstName: firstName,
+      lastName: lastName,
+      disc: disc,
     );
   }
 }

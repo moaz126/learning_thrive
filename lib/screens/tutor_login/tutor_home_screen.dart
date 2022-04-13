@@ -13,6 +13,7 @@ import 'package:learning_thrive/screens/welcome_screen/components/rounded_button
 
 import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
+import '../../TMessage/pages/home_page.dart';
 import 'tutor_login_screen.dart';
 
 class THomeScreen extends StatefulWidget {
@@ -243,7 +244,7 @@ class _HomeScreenState extends State<THomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return TMessagesScreen();
+                                return HomePage();
                               },
                             ),
                           );
