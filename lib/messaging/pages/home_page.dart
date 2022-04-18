@@ -62,7 +62,7 @@ class HomePageState extends State<HomePage> {
   int _limitIncrement = 20;
   String _textSearch = "";
   bool isLoading = false;
-  var rating = 3.0;
+  var rating = 0.0;
 
   late AuthProvider authProvider;
   late String currentUserId;
@@ -184,7 +184,8 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<bool> onBackPress() {
-    openDialog();
+    //openDialog();
+    Navigator.pop(context);
     return Future.value(false);
   }
 
@@ -285,7 +286,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppConstants.homeTitle,
+           "Locate Tutor",
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
@@ -502,8 +503,9 @@ class HomePageState extends State<HomePage> {
                         ),
                         Container(
                           child: SmoothStarRating(
-                              rating: rating,
+                              rating: (userChat.rating),
                               isReadOnly: true,
+                              allowHalfRating : false,
                               size: 20,
                               starCount: 5,
                               color: Color.fromARGB(255, 34, 129, 238),

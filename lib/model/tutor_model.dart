@@ -4,7 +4,7 @@ class TutorModel {
   String? firstName;
   String? secondName;
   String? disc;
-  int? rating;
+  double? rating;
 
   TutorModel(
       {this.uid, this.email, this.firstName, this.secondName, this.disc,this.rating=0});

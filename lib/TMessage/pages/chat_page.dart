@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/TMessage/pages/schedule.dart';
 import 'package:learning_thrive/messaging/constants/color_constants.dart';
 import 'package:learning_thrive/messaging/constants/constants.dart';
 import 'package:learning_thrive/model/models.dart';
@@ -11,11 +12,13 @@ import 'package:learning_thrive/messaging/providers/providers.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:learning_thrive/screens/tutor_login/messaging/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../messaging/utils/utilities.dart';
 import '../../model/tutor_model.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
@@ -32,6 +35,7 @@ class ChatPage extends StatefulWidget {
 class ChatPageState extends State<ChatPage> {
   User? user = FirebaseAuth.instance.currentUser;
   TutorModel loggedInUser = TutorModel();
+  var cu = FirebaseAuth.instance.currentUser;
 //for stay login
   /* late SharedPreferences logindata;
   late var username; */
@@ -77,7 +81,7 @@ class ChatPageState extends State<ChatPage> {
     super.initState();
     //initial();
     FirebaseFirestore.instance
-        .collection(FirestoreConstants.pathTutorCollection)
+        .collection("Tutors")
         .doc(user!.uid)
         .get()
         .then((value) {
@@ -126,13 +130,11 @@ class ChatPageState extends State<ChatPage> {
     if (currentUser != null) {
       print(currentUser.uid);
     }
-    final String current = await loggedInUser.firstName as String;
+
     print('${currentUser!.uid}' +
         ' output hay///////////////////////////////////////////////////////');
     String peerId = widget.arguments.peerId;
-    String cu = currentUser.uid;
-    print('$cu' +
-        ' output hay///////////////////////////////////////////////////////');
+
     //groupChatId = '${currentUser.uid}-$peerId';
     if ((currentUser.uid).compareTo(peerId) > 0) {
       groupChatId = '${currentUser.uid}-$peerId';
@@ -141,7 +143,7 @@ class ChatPageState extends State<ChatPage> {
     }
 
     chatProvider.updateDataFirestore(
-      FirestoreConstants.pathUserCollection,
+      FirestoreConstants.pathTutorCollection,
       (loggedInUser.uid as String),
       {FirestoreConstants.chattingWith: peerId},
     );
@@ -190,10 +192,12 @@ class ChatPageState extends State<ChatPage> {
   }
 
   void onSendMessage(String content, int type) {
+    print('${cu!.uid}');
+    print("///////////////////////////////");
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
       chatProvider.sendMessage(content, type, groupChatId,
-          (loggedInUser.uid as String), widget.arguments.peerId);
+          cu!.uid, widget.arguments.peerId);
       listScrollController.animateTo(0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
@@ -205,7 +209,7 @@ class ChatPageState extends State<ChatPage> {
   Widget buildItem(int index, DocumentSnapshot? document) {
     if (document != null) {
       MessageChat messageChat = MessageChat.fromDocument(document);
-      if (messageChat.idFrom == (loggedInUser.uid as String)) {
+      if (messageChat.idFrom == cu!.uid) {
         // Right (my message)
         return Row(
           children: <Widget>[
@@ -509,7 +513,7 @@ class ChatPageState extends State<ChatPage> {
       });
     } else {
       chatProvider.updateDataFirestore(
-        FirestoreConstants.pathUserCollection,
+        FirestoreConstants.pathTutorCollection,
         (loggedInUser.uid as String),
         {FirestoreConstants.chattingWith: widget.arguments.peerId},
       );
@@ -524,10 +528,33 @@ class ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          this.widget.arguments.peerId,
+          this.widget.arguments.peerNickname,
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: () {
+              if (Utilities.isKeyboardShowing()) {
+                Utilities.closeKeyboard(context);
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => schedule_meet(
+                    arguments: schedule_meetArguments(
+                      peerId: widget.arguments.peerId,
+                      peerAvatar: widget.arguments.peerAvatar,
+                      peerNickname: widget.arguments.peerNickname,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: kDefaultPadding / 20),
+        ],
       ),
       body: WillPopScope(
         child: Stack(
@@ -695,7 +722,23 @@ class ChatPageState extends State<ChatPage> {
               margin: EdgeInsets.symmetric(horizontal: 1),
               child: IconButton(
                 icon: Icon(Icons.face),
-                onPressed: getSticker,
+                onPressed: () {
+                  if (Utilities.isKeyboardShowing()) {
+                    Utilities.closeKeyboard(context);
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatPage(
+                        arguments: ChatPageArguments(
+                          peerId: widget.arguments.peerId,
+                          peerAvatar: widget.arguments.peerAvatar,
+                          peerNickname: widget.arguments.peerNickname,
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 color: ColorConstants.primaryColor,
               ),
             ),
@@ -713,7 +756,7 @@ class ChatPageState extends State<ChatPage> {
                     TextStyle(color: ColorConstants.primaryColor, fontSize: 15),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
-                  hintText: (loggedInUser.uid as String),
+                  hintText: "Type Here",
                   hintStyle: TextStyle(color: ColorConstants.greyColor),
                 ),
                 focusNode: focusNode,

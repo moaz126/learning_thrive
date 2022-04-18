@@ -206,7 +206,7 @@ class _LocateTutorState extends State<LocateTutor> {
     );
   }
 
-  void show(String name) {
+  /* void show(String name) {
     showDialog(
         context: context,
         barrierDismissible: true, // set to false if you want to force a rating
@@ -238,5 +238,5 @@ class _LocateTutorState extends State<LocateTutor> {
             },
           );
         });
-  }
+  } */
 }

@@ -16,6 +16,8 @@ import 'package:learning_thrive/messaging/constants/color_constants.dart';
 import 'package:learning_thrive/messaging/pages/pages.dart';
 import 'package:learning_thrive/messaging/providers/providers.dart';
 
+import 'TMessage/providers/schedule_provider.dart';
+
 
 
 Future<void> main() async {
@@ -61,6 +63,13 @@ class MyApp extends StatelessWidget {
         ),
         Provider<ChatProvider>(
           create: (_) => ChatProvider(
+            prefs: this.prefs,
+            firebaseFirestore: this.firebaseFirestore,
+            firebaseStorage: this.firebaseStorage,
+          ),
+        ),
+        Provider<ScheduleProvider>(
+          create: (_) => ScheduleProvider(
             prefs: this.prefs,
             firebaseFirestore: this.firebaseFirestore,
             firebaseStorage: this.firebaseStorage,

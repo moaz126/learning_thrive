@@ -523,7 +523,7 @@ class ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          this.widget.arguments.peerId,
+          this.widget.arguments.peerNickname,
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
@@ -712,7 +712,7 @@ class ChatPageState extends State<ChatPage> {
                     TextStyle(color: ColorConstants.primaryColor, fontSize: 15),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
-                  hintText: (loggedInUser.uid as String),
+                  hintText: "Type Message",
                   hintStyle: TextStyle(color: ColorConstants.greyColor),
                 ),
                 focusNode: focusNode,

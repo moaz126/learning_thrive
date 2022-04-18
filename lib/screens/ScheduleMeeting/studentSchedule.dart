@@ -168,10 +168,20 @@ class _CalendarState extends State<studentSchedule> {
             accentColor: Colors.blue, // optional
             onSubmitPressed: (int rating) async {
               print("onSubmitPressed: rating = $rating");
-              
+               /* DocumentSnapshot variable = await FirebaseFirestore.instance
+                  .collection("Tutors")
+                  .doc('6d3rbxXTdmWBxRTc7O47GFgyHYd2')
+                  .get();
+
+              print(variable['rating']);
+              int rat = variable['rating'] as int;
+              print("////////////// rat $rat"); */
+
+
+              print("/////////////////////////"); 
               var collection = FirebaseFirestore.instance.collection('Tutors');
               collection
-                  .doc("2eWVFGbjSwgUSmPGm8UslG3jBhZ2")
+                  .doc("6d3rbxXTdmWBxRTc7O47GFgyHYd2")
                   .update({"rating": "$rating"}).then((result) {
                 print("new USer true");
               }).catchError((onError) {

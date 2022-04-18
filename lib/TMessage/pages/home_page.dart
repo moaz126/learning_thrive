@@ -184,7 +184,12 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<bool> onBackPress() {
-    openDialog();
+    /* openDialog();
+    return Future.value(false); */
+    
+    Navigator.pop(context);
+    
+
     return Future.value(false);
   }
 
@@ -285,7 +290,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppConstants.homeTitle,
+          "Message",
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
@@ -500,7 +505,7 @@ class HomePageState extends State<HomePage> {
                         ),
                         Container(
                           child: SmoothStarRating(
-                              rating: rating,
+                              rating: userChat.rating,
                               isReadOnly: true,
                               size: 30,
                               starCount: 5,

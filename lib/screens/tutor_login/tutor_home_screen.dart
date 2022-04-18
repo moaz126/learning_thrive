@@ -226,7 +226,7 @@ class _HomeScreenState extends State<THomeScreen> {
                 child: Container(
                   alignment: Alignment.centerRight,
                   padding: EdgeInsets.symmetric(horizontal: 15),
-                  height: MediaQuery.of(context).size.height - 245,
+                  height: MediaQuery.of(context).size.height - 250,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.2),

@@ -2,6 +2,7 @@ class FirestoreConstants {
   static const pathUserCollection = "users";
   static const pathTutorCollection = "Tutors";
   static const pathMessageCollection = "messages";
+  static const pathScheduleCollection = "Schedule";
   static const nickname = "nickname";
   static const aboutMe = "aboutMe";
   static const photoUrl = "photoUrl";
@@ -15,4 +16,5 @@ class FirestoreConstants {
   static const firstName = "firstName";
   static const lastName = "secondName";
   static const disc = "disc";
+  static const rating = "rating";
 }
