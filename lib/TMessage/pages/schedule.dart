@@ -6,6 +6,7 @@ import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../messaging/constants/firestore_constants.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
@@ -26,6 +27,7 @@ class _CalendarState extends State<schedule_meet> {
   var currentUser;
   late String peerId;
   List<QueryDocumentSnapshot> listMessage = [];
+  //late FirebaseFirestore firebase;
 
   TextEditingController _eventController = TextEditingController();
 
@@ -36,6 +38,20 @@ class _CalendarState extends State<schedule_meet> {
     super.initState();
     scheduleProvider = context.read<ScheduleProvider>();
     readLocal();
+    /* List<String> productName= [];
+    Stream<QuerySnapshot> productRef = firebase
+    .collection(FirestoreConstants.pathMessageCollection)
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .orderBy(FirestoreConstants.timestamp, descending: true)
+        .limit(5)
+        .snapshots();
+     productRef.forEach((field) {
+     field.docs.asMap().forEach((value, data) {
+    productName.add(field.docs[value]["name"]);
+    selectev[selectedDay]!.add(field.docs[value]["content"]);
+  });
+}); */
   }
 
   Future<void> readLocal() async {

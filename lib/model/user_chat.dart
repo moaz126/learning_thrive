@@ -10,6 +10,8 @@ class UserChat {
   String lastName;
   String disc;
   double rating;
+  double longitude;
+  double latitude;
 
   UserChat(
       {required this.uid,
@@ -17,7 +19,9 @@ class UserChat {
       required this.firstName,
       required this.lastName,
       required this.disc,
-      required this.rating});
+      required this.rating,
+      required this.latitude,
+      required this.longitude});
 
   Map<String, dynamic> toJson() {
     return {
@@ -26,6 +30,8 @@ class UserChat {
       FirestoreConstants.aboutMe: disc,
       FirestoreConstants.photoUrl: photoUrl,
       FirestoreConstants.rating: rating,
+      FirestoreConstants.longitutde: longitude,
+      FirestoreConstants.latitude: latitude,
     };
   }
 
@@ -35,6 +41,8 @@ class UserChat {
     String firstName = "";
     String lastName = "";
     double rating = 0.0;
+    double longitude = 0.0;
+    double latitude = 0.0;
     try {
       disc = doc.get(FirestoreConstants.disc);
     } catch (e) {}
@@ -48,6 +56,12 @@ class UserChat {
       rating = doc.get(FirestoreConstants.rating);
     } catch (e) {}
     try {
+      longitude = doc.get(FirestoreConstants.longitutde);
+    } catch (e) {}
+    try {
+      latitude = doc.get(FirestoreConstants.latitude);
+    } catch (e) {}
+    try {
       lastName = doc.get(FirestoreConstants.lastName);
     } catch (e) {}
     return UserChat(
@@ -57,6 +71,8 @@ class UserChat {
       lastName: lastName,
       disc: disc,
       rating: rating,
+      longitude: longitude,
+      latitude: latitude,
     );
   }
 }

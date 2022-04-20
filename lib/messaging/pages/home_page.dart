@@ -536,7 +536,13 @@ class HomePageState extends State<HomePage> {
                                             color: Colors.black, fontWeight: FontWeight.w500)),
                                     onPressed: () {
                                       Navigator.of(context)
-                            .pushReplacement(MaterialPageRoute(builder: (_) => MapScreen()));
+                            .pushReplacement(MaterialPageRoute(builder: (_) => MapScreen(
+                               arguments: locationArguments(
+                      peerId: userChat.uid,
+                      peerAvatar: userChat.photoUrl,
+                      peerNickname: userChat.firstName, latitude: userChat.latitude, longitude: userChat.longitude,
+                    ),
+                            )));
                                     }),)),
                           alignment: Alignment.topRight,
                           margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),     

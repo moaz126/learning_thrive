@@ -51,34 +51,32 @@ class _HomeScreenState extends State<THomeScreen> {
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              child: Text('Learning Thrive', style: TextStyle(color: Colors.indigo,fontSize: 37.0)),
+              child: Text('Learning Thrive',
+                  style: TextStyle(color: Colors.indigo, fontSize: 37.0)),
               decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFF0F0F0),
-                    Color(0xFFD4E7FE),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                )),
-              ),
-
+                  gradient: LinearGradient(
+                colors: [
+                  Color(0xFFF0F0F0),
+                  Color(0xFFD4E7FE),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )),
+            ),
             ListTile(
-              title:Text("Profile"),
+              title: Text("Profile"),
               trailing: Icon(Icons.person),
-              
-            ),
-             ListTile(
-
-             title:Text("Help"),
-               hoverColor: Colors.white,
-               trailing: Icon(Icons.help),
-
-               //textColor: Colors.indigo,
-               tileColor: Colors.black12,
             ),
             ListTile(
-             title:Text("Contact us"),
+              title: Text("Help"),
+              hoverColor: Colors.white,
+              trailing: Icon(Icons.help),
+
+              //textColor: Colors.indigo,
+              tileColor: Colors.black12,
+            ),
+            ListTile(
+              title: Text("Contact us"),
               trailing: Icon(Icons.contact_support),
               onTap: () {
                 Navigator.push(
@@ -93,45 +91,38 @@ class _HomeScreenState extends State<THomeScreen> {
               //textColor: Colors.indigo,
             ),
             ListTile(
-             title:Text("Feedback"),
+              title: Text("Feedback"),
               trailing: Icon(Icons.feedback),
               //textColor: Colors.indigo,
               tileColor: Colors.black12,
             ),
             ListTile(
-             title:Text("Logout"),
+              title: Text("Logout"),
               trailing: Icon(Icons.logout),
               //textColor: Colors.indigo,
-              onTap: (){
+              onTap: () {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Text(
-                            'Are you sure you want to logout?'
-                        ),
+                        content: Text('Are you sure you want to logout?'),
                         actions: [
                           TextButton(
-                            child: Text(
-                                'Yes'
-                            ),
+                            child: Text('Yes'),
                             onPressed: () async {
                               logout(context);
                               Navigator.of(context).pop();
                             },
                           ),
                           TextButton(
-                            child: Text(
-                                'No'
-                            ),
-                            onPressed: (){
+                            child: Text('No'),
+                            onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                         ],
                       );
-                    }
-                );
+                    });
               },
             ),
           ],

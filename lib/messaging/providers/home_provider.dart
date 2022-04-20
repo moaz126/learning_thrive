@@ -16,6 +16,7 @@ class HomeProvider {
           .collection(pathCollection)
           .limit(limit)
           .where(FirestoreConstants.disc, isEqualTo: textSearch)
+          //.where((user) => FirestoreConstants.firstName.toLowerCase().contains(textSearch!))
           .snapshots();
     } else {
       return firebaseFirestore.collection(pathCollection).limit(limit).snapshots();

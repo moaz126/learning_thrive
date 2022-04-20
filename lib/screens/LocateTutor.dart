@@ -1,4 +1,4 @@
-import 'package:learning_thrive/model/user.dart';
+/* import 'package:learning_thrive/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
@@ -240,3 +240,4 @@ class _LocateTutorState extends State<LocateTutor> {
         });
   } */
 }
+ */

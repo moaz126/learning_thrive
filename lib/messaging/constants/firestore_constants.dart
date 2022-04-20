@@ -17,4 +17,6 @@ class FirestoreConstants {
   static const lastName = "secondName";
   static const disc = "disc";
   static const rating = "rating";
+  static const longitutde = "longitude";
+  static const latitude = "latitude";
 }
