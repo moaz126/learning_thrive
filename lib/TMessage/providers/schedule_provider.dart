@@ -12,7 +12,10 @@ class ScheduleProvider {
   final FirebaseFirestore firebaseFirestore;
   final FirebaseStorage firebaseStorage;
 
-  ScheduleProvider({required this.firebaseFirestore, required this.prefs, required this.firebaseStorage});
+  ScheduleProvider(
+      {required this.firebaseFirestore,
+      required this.prefs,
+      required this.firebaseStorage});
 
   String? getPref(String key) {
     return prefs.getString(key);
@@ -24,8 +27,12 @@ class ScheduleProvider {
     return uploadTask;
   }
 
-  Future<void> updateDataFirestore(String collectionPath, String docPath, Map<String, dynamic> dataNeedUpdate) {
-    return firebaseFirestore.collection(collectionPath).doc(docPath).update(dataNeedUpdate);
+  Future<void> updateDataFirestore(String collectionPath, String docPath,
+      Map<String, dynamic> dataNeedUpdate) {
+    return firebaseFirestore
+        .collection(collectionPath)
+        .doc(docPath)
+        .update(dataNeedUpdate);
   }
 
   Stream<QuerySnapshot> getScheduleStream(String groupChatId, int limit) {
@@ -38,17 +45,17 @@ class ScheduleProvider {
         .snapshots();
   }
 
-  void sendSchedule(String content, int type, String groupChatId, String currentUserId, String peerId, DateTime date) {
+  void sendSchedule(String content, int type, String groupChatId,
+      String currentUserId, String peerId, DateTime date) {
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreConstants.pathScheduleCollection)
-        .doc(groupChatId)
-        .collection(groupChatId)
-        .doc(DateTime.now().millisecondsSinceEpoch.toString());
+        .doc(groupChatId);
 
     Schedule messageChat = Schedule(
       idFrom: currentUserId,
       idTo: peerId,
-      timestamp: /* DateTime.now().millisecondsSinceEpoch.toString() */date.toString(),
+      timestamp: /* DateTime.now().millisecondsSinceEpoch.toString() */ date
+          .toString(),
       content: content,
       type: type,
     );

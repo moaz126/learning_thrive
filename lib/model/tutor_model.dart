@@ -8,8 +8,8 @@ class TutorModel {
   String? disc;
   double? rating;
   String flag;
-  //double? longitude;
-  //double? latitude;
+  double? longitude;
+  double? latitude;
 
   TutorModel({
     this.uid,
@@ -19,7 +19,7 @@ class TutorModel {
     this.disc,
     this.rating = 0.0,
     this.flag = "tutor",
-    /* this.longitude,this.latitude */
+     this.longitude=73.035522,this.latitude=31.603189,
   });
 
   // receiving data from server
@@ -32,8 +32,8 @@ class TutorModel {
       disc: map['disc'],
       rating: map['rating'],
       flag: map['flag'],
-      /* longitude: map['longitude'],
-        latitude: map['latitude'] */
+       longitude: map['longitude'],
+        latitude: map['latitude'],
     );
   }
 
@@ -47,8 +47,8 @@ class TutorModel {
       'disc': disc,
       'rating': rating,
       'flag':flag,
-      /* 'longitude': longitude,
-      'latitude':latitude, */
+      'longitude': longitude,
+      'latitude':latitude, 
     };
   }
 }

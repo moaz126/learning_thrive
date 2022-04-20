@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/schedule/pages/pages.dart';
 import 'package:learning_thrive/screens/Assesments/view_assessment.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
@@ -10,6 +11,7 @@ import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
 import 'package:learning_thrive/screens/feedback/feedbackAndRating.dart';
 import 'package:learning_thrive/screens/welcome_screen/components/rounded_button.dart';
 import 'package:learning_thrive/screens/welcome_screen/welcome_screen.dart';
+import 'package:learning_thrive/studentUploadAssessemnt/pages/pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
 import 'package:flutter/material.dart';
@@ -302,6 +304,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      RoundedButton(
+                        text: "upload Assesments",
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return showTutorforassessment();
+                              },
+                            ),
+                          );
+                        },
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -312,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return schedule_meeting();
+                                return getmeeting();
                               },
                             ),
                           );

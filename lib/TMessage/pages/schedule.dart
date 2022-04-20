@@ -62,11 +62,11 @@ class _CalendarState extends State<schedule_meet> {
     } else {
       groupChatId = '$peerId-${currentUser.uid}';
     }
-    selectedDay = DateTime(2022,04,26);
+    /* selectedDay = DateTime(2022,04,26);
     selectedEvents[selectedDay] = [Event(title: "koi bhi"),Event(title: "koi bhi ni")];
     selectedEvents[selectedDay]!.add(
                         Event(title: "koi bhi"),
-                      );
+                      ); */
   }
 
   List<Event> _getEventsfromDay(DateTime date) {

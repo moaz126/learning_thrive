@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,27 +13,32 @@ import 'package:learning_thrive/messaging/utils/utils.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
+import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:provider/provider.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'dart:math' as math;
 
 import 'package:learning_thrive/model/models.dart';
+import '../../model/schedule.dart';
 import '../../model/tutor_model.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+class gettutormeeting extends StatefulWidget {
+  gettutormeeting({Key? key}) : super(key: key);
 
   @override
-  State createState() => HomePageState();
+  State createState() => gettutormeetingState();
 }
 
-class HomePageState extends State<HomePage> {
-  HomePageState({Key? key});
+class gettutormeetingState extends State<gettutormeeting> {
+  gettutormeetingState({Key? key});
   User? user = FirebaseAuth.instance.currentUser;
   TutorModel loggedInUser = TutorModel();
+  var current = FirebaseAuth.instance.currentUser;
 //for stay login
   /* late SharedPreferences logindata;
   late var username; */
@@ -54,7 +60,8 @@ class HomePageState extends State<HomePage> {
   } */
 
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final ScrollController listScrollController = ScrollController();
 
@@ -71,17 +78,12 @@ class HomePageState extends State<HomePage> {
   StreamController<bool> btnClearController = StreamController<bool>();
   TextEditingController searchBarTec = TextEditingController();
 
-  /* List<PopupChoices> choices = <PopupChoices>[
-    PopupChoices(title: 'Settings', icon: Icons.settings),
-    PopupChoices(title: 'Log out', icon: Icons.exit_to_app),
-  ]; */
-
   @override
-   void initState() {
+  void initState() {
     super.initState();
     authProvider = context.read<AuthProvider>();
     homeProvider = context.read<HomeProvider>();
-     // TODO: implement initState
+    // TODO: implement initState
     super.initState();
     //initial();
     FirebaseFirestore.instance
@@ -104,7 +106,7 @@ class HomePageState extends State<HomePage> {
     registerNotification(); */
     configLocalNotification();
     listScrollController.addListener(scrollListener);
-  } 
+  }
 
   @override
   void dispose() {
@@ -134,15 +136,18 @@ class HomePageState extends State<HomePage> {
   } */
 
   void configLocalNotification() {
-    AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-    IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
-    InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+    AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings();
+    InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   void scrollListener() {
-    if (listScrollController.offset >= listScrollController.position.maxScrollExtent &&
+    if (listScrollController.offset >=
+            listScrollController.position.maxScrollExtent &&
         !listScrollController.position.outOfRange) {
       setState(() {
         _limit += _limitIncrement;
@@ -154,23 +159,25 @@ class HomePageState extends State<HomePage> {
     if (choice.title == 'Log out') {
       handleSignOut();
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+      /* Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage())); */
     }
   }
 
   void showNotification(RemoteNotification remoteNotification) async {
-    AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      Platform.isAndroid ? 'com.dfa.flutterchatdemo' : 'com.duytq.flutterchatdemo',
-      'Flutter chat demo',
-    
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      Platform.isAndroid ? 'Learning thrive' : 'Learning thrive',
+      'Learning thrive',
       playSound: true,
       enableVibration: true,
       importance: Importance.max,
       priority: Priority.high,
     );
-    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    IOSNotificationDetails iOSPlatformChannelSpecifics =
+        IOSNotificationDetails();
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
 
     print(remoteNotification);
 
@@ -186,9 +193,8 @@ class HomePageState extends State<HomePage> {
   Future<bool> onBackPress() {
     /* openDialog();
     return Future.value(false); */
-    
+
     Navigator.pop(context);
-    
 
     return Future.value(false);
   }
@@ -199,7 +205,8 @@ class HomePageState extends State<HomePage> {
         builder: (BuildContext context) {
           return SimpleDialog(
             clipBehavior: Clip.hardEdge,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             contentPadding: EdgeInsets.zero,
             children: <Widget>[
               Container(
@@ -218,7 +225,10 @@ class HomePageState extends State<HomePage> {
                     ),
                     Text(
                       'Exit app',
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Are you sure to exit app?',
@@ -242,7 +252,9 @@ class HomePageState extends State<HomePage> {
                     ),
                     Text(
                       'Cancel',
-                      style: TextStyle(color: ColorConstants.primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -262,7 +274,9 @@ class HomePageState extends State<HomePage> {
                     ),
                     Text(
                       'Yes',
-                      style: TextStyle(color: ColorConstants.primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -279,10 +293,10 @@ class HomePageState extends State<HomePage> {
 
   Future<void> handleSignOut() async {
     authProvider.handleSignOut();
-    Navigator.of(context).pushAndRemoveUntil(
+    /* Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => LoginPage()),
       (Route<dynamic> route) => false,
-    );
+    ); */
   }
 
   @override
@@ -290,7 +304,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Message",
+          "My Meetings",
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
@@ -306,13 +320,18 @@ class HomePageState extends State<HomePage> {
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     //Get all tutors here fro pathTutorCollection
-                    stream: homeProvider.getStreamFireStore(FirestoreConstants.pathUserCollection, _limit, _textSearch),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    stream: homeProvider.getStreamFireStore(
+                        FirestoreConstants.pathScheduleCollection,
+                        _limit,
+                        _textSearch),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         if ((snapshot.data?.docs.length ?? 0) > 0) {
                           return ListView.builder(
                             padding: EdgeInsets.all(10),
-                            itemBuilder: (context, index) => buildItem(context, snapshot.data?.docs[index]),
+                            itemBuilder: (context, index) =>
+                                buildItem(context, snapshot.data?.docs[index]),
                             itemCount: snapshot.data?.docs.length,
                             controller: listScrollController,
                           );
@@ -374,7 +393,8 @@ class HomePageState extends State<HomePage> {
               },
               decoration: InputDecoration.collapsed(
                 hintText: 'Search nickname (you have to type exactly string)',
-                hintStyle: TextStyle(fontSize: 13, color: ColorConstants.greyColor),
+                hintStyle:
+                    TextStyle(fontSize: 13, color: ColorConstants.greyColor),
               ),
               style: TextStyle(fontSize: 13),
             ),
@@ -391,7 +411,8 @@ class HomePageState extends State<HomePage> {
                             _textSearch = "";
                           });
                         },
-                        child: Icon(Icons.clear_rounded, color: ColorConstants.greyColor, size: 20))
+                        child: Icon(Icons.clear_rounded,
+                            color: ColorConstants.greyColor, size: 20))
                     : SizedBox.shrink();
               }),
         ],
@@ -405,45 +426,20 @@ class HomePageState extends State<HomePage> {
     );
   }
 
- /*  Widget buildPopupMenu() {
-    return PopupMenuButton<PopupChoices>(
-      onSelected: onItemMenuPress,
-      itemBuilder: (BuildContext context) {
-        return choices.map((PopupChoices choice) {
-          return PopupMenuItem<PopupChoices>(
-              value: choice,
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    choice.icon,
-                    color: ColorConstants.primaryColor,
-                  ),
-                  Container(
-                    width: 10,
-                  ),
-                  Text(
-                    choice.title,
-                    style: TextStyle(color: ColorConstants.primaryColor),
-                  ),
-                ],
-              ));
-        }).toList();
-      },
-    );
-  } */
-
   Widget buildItem(BuildContext context, DocumentSnapshot? document) {
     if (document != null) {
-      UserChat userChat = UserChat.fromDocument(document);
+      Schedule userChat = Schedule.fromDocument(document);
       //changing id to uid
-      if (userChat.uid == loggedInUser) {
-        return SizedBox.shrink();
-      } else {
+      if (userChat.idFrom == current!.uid) {
+        var date = DateTime.parse(userChat.timestamp);
+        var formattedDate = "${date.day}-${date.month}-${date.year}";
+
+        print(formattedDate);
         return Container(
           child: TextButton(
             child: Row(
               children: <Widget>[
-                Material(
+                /* Material(
                   child: userChat.photoUrl.isNotEmpty
                       ? Image.network(
                           userChat.photoUrl,
@@ -480,43 +476,30 @@ class HomePageState extends State<HomePage> {
                         ),
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                   clipBehavior: Clip.hardEdge,
-                ),
+                ), */
                 Flexible(
                   child: Container(
                     child: Column(
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${userChat.firstName}'+' ${userChat.lastName}',
+                            '${userChat.content}',
                             maxLines: 1,
-                            style: TextStyle(color: ColorConstants.primaryColor),
+                            style:
+                                TextStyle(color: ColorConstants.primaryColor),
                           ),
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 5),
                         ),
-                        /* Container(
+                        Container(
                           child: Text(
-                            '${userChat.disc}',
+                            '${formattedDate}',
                             maxLines: 1,
-                            style: TextStyle(color: ColorConstants.primaryColor),
+                            style: TextStyle(color: Util.randomOpaqueColor()),
                           ),
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        ), */
-                        /* Container(
-                          child: SmoothStarRating(
-                              rating: userChat.rating,
-                              isReadOnly: true,
-                              size: 30,
-                              starCount: 5,
-                              color: Color.fromARGB(255, 34, 129, 238),
-                              borderColor: Color.fromARGB(255, 34, 129, 238) ,
-                              ),
-                          
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        ), */
-
+                        ),
                       ],
                     ),
                     margin: EdgeInsets.only(left: 20),
@@ -524,37 +507,32 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            onPressed: () {
-              if (Utilities.isKeyboardShowing()) {
-                Utilities.closeKeyboard(context);
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    arguments: ChatPageArguments(
-                      peerId: userChat.uid,
-                      peerAvatar: userChat.photoUrl,
-                      peerNickname: userChat.firstName,
-                    ),
-                  ),
-                ),
-              );
-            },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(ColorConstants.greyColor2),
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(ColorConstants.greyColor2),
               shape: MaterialStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
               ),
+              elevation: MaterialStateProperty.all(8),
+              shadowColor: MaterialStateProperty.all(Colors.black),
             ),
+            onPressed: () {},
           ),
           margin: EdgeInsets.only(bottom: 10, left: 5, right: 5),
         );
+      } else {
+        return SizedBox.shrink();
       }
     } else {
       return SizedBox.shrink();
     }
+  }
+}
+
+class Util {
+  static Color randomOpaqueColor() {
+    return Color(Random().nextInt(0xffffffff)).withAlpha(0xff);
   }
 }

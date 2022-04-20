@@ -12,6 +12,8 @@ import 'package:learning_thrive/messaging/utils/utils.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:learning_thrive/studentUploadAssessemnt/Assesments/upload_assesments.dart';
+import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:provider/provider.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,17 +24,17 @@ import '../../model/tutor_model.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+class showTutorforassessment extends StatefulWidget {
+  showTutorforassessment({Key? key}) : super(key: key);
 
   @override
-  State createState() => HomePageState();
+  State createState() => showTutorforassessmentState();
 }
 
-class HomePageState extends State<HomePage> {
-  HomePageState({Key? key});
+class showTutorforassessmentState extends State<showTutorforassessment> {
+  showTutorforassessmentState({Key? key});
   User? user = FirebaseAuth.instance.currentUser;
-  TutorModel loggedInUser = TutorModel();
+  UserModel loggedInUser = UserModel();
 //for stay login
   /* late SharedPreferences logindata;
   late var username; */
@@ -71,10 +73,10 @@ class HomePageState extends State<HomePage> {
   StreamController<bool> btnClearController = StreamController<bool>();
   TextEditingController searchBarTec = TextEditingController();
 
-  /* List<PopupChoices> choices = <PopupChoices>[
+  List<PopupChoices> choices = <PopupChoices>[
     PopupChoices(title: 'Settings', icon: Icons.settings),
     PopupChoices(title: 'Log out', icon: Icons.exit_to_app),
-  ]; */
+  ];
 
   @override
    void initState() {
@@ -89,7 +91,7 @@ class HomePageState extends State<HomePage> {
         .doc(user!.uid)
         .get()
         .then((value) async {
-      this.loggedInUser = TutorModel.fromMap(value.data());
+      this.loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
 
@@ -137,7 +139,7 @@ class HomePageState extends State<HomePage> {
     AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
     IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
     InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -154,14 +156,14 @@ class HomePageState extends State<HomePage> {
     if (choice.title == 'Log out') {
       handleSignOut();
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+      /* Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage())); */
     }
   }
 
   void showNotification(RemoteNotification remoteNotification) async {
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      Platform.isAndroid ? 'com.dfa.flutterchatdemo' : 'com.duytq.flutterchatdemo',
-      'Flutter chat demo',
+      Platform.isAndroid ? 'Learning thrive' : 'Learning thrive',
+      'Learning thrive',
     
       playSound: true,
       enableVibration: true,
@@ -279,10 +281,10 @@ class HomePageState extends State<HomePage> {
 
   Future<void> handleSignOut() async {
     authProvider.handleSignOut();
-    Navigator.of(context).pushAndRemoveUntil(
+    /* Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => LoginPage()),
       (Route<dynamic> route) => false,
-    );
+    ); */
   }
 
   @override
@@ -294,7 +296,7 @@ class HomePageState extends State<HomePage> {
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
-        //actions: <Widget>[buildPopupMenu()],
+        actions: <Widget>[buildPopupMenu()],
       ),
       body: WillPopScope(
         child: Stack(
@@ -306,7 +308,7 @@ class HomePageState extends State<HomePage> {
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     //Get all tutors here fro pathTutorCollection
-                    stream: homeProvider.getStreamFireStore(FirestoreConstants.pathUserCollection, _limit, _textSearch),
+                    stream: homeProvider.getStreamFireStore(FirestoreConstants.pathTutorCollection, _limit, _textSearch),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         if ((snapshot.data?.docs.length ?? 0) > 0) {
@@ -405,7 +407,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
- /*  Widget buildPopupMenu() {
+  Widget buildPopupMenu() {
     return PopupMenuButton<PopupChoices>(
       onSelected: onItemMenuPress,
       itemBuilder: (BuildContext context) {
@@ -430,7 +432,7 @@ class HomePageState extends State<HomePage> {
         }).toList();
       },
     );
-  } */
+  }
 
   Widget buildItem(BuildContext context, DocumentSnapshot? document) {
     if (document != null) {
@@ -494,7 +496,7 @@ class HomePageState extends State<HomePage> {
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 5),
                         ),
-                        /* Container(
+                        Container(
                           child: Text(
                             '${userChat.disc}',
                             maxLines: 1,
@@ -502,20 +504,8 @@ class HomePageState extends State<HomePage> {
                           ),
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        ), */
-                        /* Container(
-                          child: SmoothStarRating(
-                              rating: userChat.rating,
-                              isReadOnly: true,
-                              size: 30,
-                              starCount: 5,
-                              color: Color.fromARGB(255, 34, 129, 238),
-                              borderColor: Color.fromARGB(255, 34, 129, 238) ,
-                              ),
-                          
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        ), */
+                        ),
+                        
 
                       ],
                     ),
@@ -531,8 +521,8 @@ class HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    arguments: ChatPageArguments(
+                  builder: (context) => uploadAssesment(arguments: 
+                  assessemntArguments(
                       peerId: userChat.uid,
                       peerAvatar: userChat.photoUrl,
                       peerNickname: userChat.firstName,
