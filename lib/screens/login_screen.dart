@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:learning_thrive/screens/home_screen.dart';
 import 'package:learning_thrive/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // firebase
   final _auth = FirebaseAuth.instance;
+  var user;
+  UserModel loggedInUser = UserModel();
 
 //for stay login
    /* late SharedPreferences logindata;
@@ -196,14 +201,36 @@ class _LoginScreenState extends State<LoginScreen> {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString('email',email)
             }) */
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
+            .then((uid) async => {
+                  //Fluttertoast.showToast(msg: "Login Successful"),
                   //for stay login
                    /* logindata.setBool('login', false),
                   logindata.setString('username', email),  */
                   //
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                  user = FirebaseAuth.instance.currentUser,
+
+                  await FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(user!.uid)
+                      .get()
+                      .then((value) {
+                    this.loggedInUser = UserModel.fromMap(value.data());
+                    setState(() {});
+                  }),
+                  print("${loggedInUser.firstName}"),
+                  print("//////////////////////"),
+                  /* Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => HomeScreen())), */
+                  /* if(loggedInUser.firstName != 'moaz'){
+                      Fluttertoast.showToast(msg: "Login UNSuccessful"),
+
+                    }, */
+                   if (loggedInUser.flag == 'stu')
+                    {
+                      Fluttertoast.showToast(msg: "Login Successful"),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => HomeScreen())),
+                    }, 
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

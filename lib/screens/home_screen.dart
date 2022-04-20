@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/screens/Assesments/view_assessment.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/studentSchedule.dart';
@@ -47,6 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
       this.loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
+   /*  if(loggedInUser.firstName!.isEmpty){
+      Fluttertoast.showToast(msg: "Please Login with Tutor");
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+    else{
+      Fluttertoast.showToast(msg: "Login Successful");
+      
+    } */
   }
 
 //for stay login
@@ -169,14 +180,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.centerRight,
                       child: RichText(
                         text: TextSpan(
-                            text: "Thursday",
+                            text: "Wednesday",
                             style: TextStyle(
                                 color: Color(0XFF263064),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w800),
                             children: [
                               TextSpan(
-                                text: " 16 Dec",
+                                text: " 21 Apr",
                                 style: TextStyle(
                                     color: Color(0XFF263064),
                                     fontSize: 12,
@@ -279,13 +290,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 30,
                       ),
                       RoundedButton(
-                        text: "Assesment",
+                        text: "Assesments",
                         press: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return uploadAssesment();
+                                return Viewassment();
                               },
                             ),
                           );
@@ -301,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return studentSchedule();
+                                return schedule_meeting();
                               },
                             ),
                           );

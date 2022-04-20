@@ -15,16 +15,16 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: title,
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: ViewPage(),
+        home: Viewassment(),
       );
 }
 
-class ViewPage extends StatefulWidget {
+class Viewassment extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<ViewPage> {
+class _MainPageState extends State<Viewassment> {
   late Future<List<FirebaseFile>> futureFiles;
   var current = FirebaseAuth.instance.currentUser;
 
@@ -32,7 +32,7 @@ class _MainPageState extends State<ViewPage> {
   void initState() {
     super.initState();
 
-    futureFiles = FirebaseApi1.listAll('files/${current!.uid}/');
+    futureFiles = FirebaseApi1.listAll('files/assessment/${current!.uid}/');
   }
 
   @override

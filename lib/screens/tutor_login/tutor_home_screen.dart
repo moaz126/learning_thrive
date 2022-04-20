@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:learning_thrive/assessment/pages/pages.dart';
+import 'package:learning_thrive/lecture_Material/pages/pages.dart';
 
-import 'package:learning_thrive/model/user_model.dart';
+import 'package:learning_thrive/model/tutor_model.dart';
 import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:learning_thrive/screens/LocateTutor.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/calendar.dart';
@@ -25,19 +28,38 @@ class THomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<THomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
+  TutorModel loggedInUser = TutorModel();
+  String check = "";
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-    FirebaseFirestore.instance
+    getvalue();
+    /* if (loggedInUser.flag == "tutor") {
+      Fluttertoast.showToast(msg: "Login Successful");
+    } else {
+      
+      Fluttertoast.showToast(msg: "Please Login with Student");
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => TLoginScreen()));
+    }
+ */
+    
+  }
+
+  Future<void> getvalue() async {
+    await FirebaseFirestore.instance
         .collection("Tutors")
         .doc(user!.uid)
         .get()
         .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
+      this.loggedInUser = TutorModel.fromMap(value.data());
       setState(() {});
     });
+    check = loggedInUser.flag;
+    /* print("${loggedInUser.firstName}");
+    print("//////////////////////"); */
+    
   }
 
   @override
@@ -158,7 +180,7 @@ class _HomeScreenState extends State<THomeScreen> {
                                 fontWeight: FontWeight.w800),
                             children: [
                               TextSpan(
-                                text: " 16 Dec",
+                                text: " 21 Apr",
                                 style: TextStyle(
                                     color: Color(0XFF263064),
                                     fontSize: 12,
@@ -251,7 +273,7 @@ class _HomeScreenState extends State<THomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return uploadfile();
+                                return showStudentforLecture();
                               },
                             ),
                           );
@@ -267,7 +289,7 @@ class _HomeScreenState extends State<THomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return uploadAssesment();
+                                return showStudentforassessment();
                               },
                             ),
                           );

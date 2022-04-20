@@ -10,19 +10,27 @@ import 'package:path/path.dart';
 import 'package:learning_thrive/api/firebase_api.dart';
 import 'package:learning_thrive/widget/button_widget.dart';
 
-class MyApp1 extends StatelessWidget {
-  static final String title = 'Upload Assesments';
+/* class MyApp1 extends StatelessWidget {
+  static final String title = 'Upload Lecture Materials';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
         theme: ThemeData(primarySwatch: Colors.lightBlue),
-        home: uploadAssesment(),
+        home:  uploadfile(arguments: lectureArguments(
+                      peerId: userChat.uid,
+                      peerAvatar: userChat.photoUrl,
+                      peerNickname: userChat.firstName,
+                    ),
+                  ),
       );
-}
+} */
 
 class uploadAssesment extends StatefulWidget {
+  const uploadAssesment({Key? key,required this.arguments}) : super(key: key);
+  final assessemntArguments arguments;
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -37,7 +45,7 @@ class _MainPageState extends State<uploadAssesment> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(MyApp1.title),
+        title:Text('Upload Assessment') ,
         centerTitle: true,
       ),
       body: Container(
@@ -93,7 +101,7 @@ class _MainPageState extends State<uploadAssesment> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
-    final destination = 'files/$fileName';
+    final destination = 'files/assessment/${widget.arguments.peerId}/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
     setState(() {});
@@ -123,4 +131,16 @@ class _MainPageState extends State<uploadAssesment> {
           }
         },
       );
+}
+class assessemntArguments {
+  final String peerId;
+  final String peerAvatar;
+  final String peerNickname;
+
+  assessemntArguments(
+      {required this.peerId,
+      required this.peerAvatar,
+      required this.peerNickname,
+      String? current,
+      String? currentid});
 }

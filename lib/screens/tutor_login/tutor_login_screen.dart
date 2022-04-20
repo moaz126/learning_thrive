@@ -1,9 +1,11 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/screens/tutor_login/tutor_home_screen.dart';
 import 'package:learning_thrive/screens/tutor_login/tutor_registration_screen.dart';
+
+import '../../model/tutor_model.dart';
 
 class TLoginScreen extends StatefulWidget {
   const TLoginScreen({Key? key}) : super(key: key);
@@ -22,6 +24,8 @@ class _LoginScreenState extends State<TLoginScreen> {
 
   // firebase
   final _auth = FirebaseAuth.instance;
+  var user;
+  TutorModel loggedInUser = TutorModel();
 
   // string for displaying the error Message
   String? errorMessage;
@@ -166,10 +170,34 @@ class _LoginScreenState extends State<TLoginScreen> {
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => THomeScreen())),
+            .then((uid) async => {
+                  //Fluttertoast.showToast(msg: "Login Successful"),
+                  user = FirebaseAuth.instance.currentUser,
+
+                  await FirebaseFirestore.instance
+                      .collection("Tutors")
+                      .doc(user!.uid)
+                      .get()
+                      .then((value) {
+                    this.loggedInUser = TutorModel.fromMap(value.data());
+                    setState(() {});
+                  }),
+                  print("${loggedInUser.firstName}"),
+                  print("//////////////////////"),
+                  if(loggedInUser.flag != 'tutor'){
+                      Fluttertoast.showToast(msg: "Login UNSuccessful"),
+
+                    },
+                  if (loggedInUser.flag == 'tutor')
+                    {
+                      Fluttertoast.showToast(msg: "Login Successful"),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => THomeScreen())),
+                    },
+                    
+        
+                    
+                  
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

@@ -110,23 +110,7 @@ class _CalendarState extends State<schedule_meeting> {
                 event.title,
               ),
               
-              subtitle:TextButton(
-                child: Text('Start Meeting'),
-                style: TextButton.styleFrom(
-                  
-                  primary: Colors.white,
-                  onSurface: Colors.white,
-                  backgroundColor: Colors.lightBlue,
-                  shadowColor: Colors.red,
-                  elevation: 5,
-                  padding: EdgeInsets.all(5.0),
-                 
-                  
-                ),
-                onPressed: () {
-                  print('Pressed');
-                },
-              ),
+              
               
             ),
           ),

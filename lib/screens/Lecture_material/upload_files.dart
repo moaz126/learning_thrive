@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 import 'package:learning_thrive/api/firebase_api.dart';
 import 'package:learning_thrive/widget/button_widget.dart';
 
-class MyApp1 extends StatelessWidget {
+/* class MyApp1 extends StatelessWidget {
   static final String title = 'Upload Lecture Materials';
 
   @override
@@ -18,11 +18,19 @@ class MyApp1 extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: title,
         theme: ThemeData(primarySwatch: Colors.lightBlue),
-        home: uploadfile(),
+        home:  uploadfile(arguments: lectureArguments(
+                      peerId: userChat.uid,
+                      peerAvatar: userChat.photoUrl,
+                      peerNickname: userChat.firstName,
+                    ),
+                  ),
       );
-}
+} */
 
 class uploadfile extends StatefulWidget {
+  const uploadfile({Key? key,required this.arguments}) : super(key: key);
+  final lectureArguments arguments;
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -37,7 +45,7 @@ class _MainPageState extends State<uploadfile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(MyApp1.title),
+        title:Text('Upload Lecture Materials') ,
         centerTitle: true,
       ),
       body: Container(
@@ -93,7 +101,7 @@ class _MainPageState extends State<uploadfile> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
-    final destination = 'files/$fileName';
+    final destination = 'files/${widget.arguments.peerId}/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
     setState(() {});
@@ -123,4 +131,16 @@ class _MainPageState extends State<uploadfile> {
           }
         },
       );
+}
+class lectureArguments {
+  final String peerId;
+  final String peerAvatar;
+  final String peerNickname;
+
+  lectureArguments(
+      {required this.peerId,
+      required this.peerAvatar,
+      required this.peerNickname,
+      String? current,
+      String? currentid});
 }
