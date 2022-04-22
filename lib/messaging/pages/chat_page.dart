@@ -524,7 +524,7 @@ class ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(
           this.widget.arguments.peerNickname,
-          style: TextStyle(color: ColorConstants.primaryColor),
+          style: TextStyle(color: Color.fromARGB(255, 249, 250, 252)),
         ),
         centerTitle: true,
       ),
@@ -689,7 +689,7 @@ class ChatPageState extends State<ChatPage> {
             ),
             color: Colors.white,
           ),
-          Material(
+          /* Material(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 1),
               child: IconButton(
@@ -699,7 +699,7 @@ class ChatPageState extends State<ChatPage> {
               ),
             ),
             color: Colors.white,
-          ),
+          ), */
 
           // Edit text
           Flexible(

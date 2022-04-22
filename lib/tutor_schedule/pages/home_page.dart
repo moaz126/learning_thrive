@@ -316,7 +316,7 @@ class gettutormeetingState extends State<gettutormeeting> {
             // List
             Column(
               children: [
-                buildSearchBar(),
+                //buildSearchBar(),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     //Get all tutors here fro pathTutorCollection
@@ -337,7 +337,7 @@ class gettutormeetingState extends State<gettutormeeting> {
                           );
                         } else {
                           return Center(
-                            child: Text("No users"),
+                            child: Text("No Meetings"),
                           );
                         }
                       } else {
@@ -483,7 +483,7 @@ class gettutormeetingState extends State<gettutormeeting> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${userChat.content}',
+                            'Title: ${userChat.content}',
                             maxLines: 1,
                             style:
                                 TextStyle(color: ColorConstants.primaryColor),
@@ -493,7 +493,7 @@ class gettutormeetingState extends State<gettutormeeting> {
                         ),
                         Container(
                           child: Text(
-                            '${formattedDate}',
+                            'Date: ${formattedDate}',
                             maxLines: 1,
                             style: TextStyle(color: Util.randomOpaqueColor()),
                           ),

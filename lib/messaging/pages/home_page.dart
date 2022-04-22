@@ -71,10 +71,10 @@ class HomePageState extends State<HomePage> {
   StreamController<bool> btnClearController = StreamController<bool>();
   TextEditingController searchBarTec = TextEditingController();
 
-  List<PopupChoices> choices = <PopupChoices>[
+ /*  List<PopupChoices> choices = <PopupChoices>[
     PopupChoices(title: 'Settings', icon: Icons.settings),
     PopupChoices(title: 'Log out', icon: Icons.exit_to_app),
-  ];
+  ]; */
 
   @override
    void initState() {
@@ -135,9 +135,9 @@ class HomePageState extends State<HomePage> {
 
   void configLocalNotification() {
     AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-    IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
+    
     InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+        InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -150,27 +150,27 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  void onItemMenuPress(PopupChoices choice) {
+  /* void onItemMenuPress(PopupChoices choice) {
     if (choice.title == 'Log out') {
       handleSignOut();
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
     }
-  }
+  } */
 
   void showNotification(RemoteNotification remoteNotification) async {
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      Platform.isAndroid ? 'com.dfa.flutterchatdemo' : 'com.duytq.flutterchatdemo',
-      'Flutter chat demo',
+      Platform.isAndroid ? 'com.dfa.learning thrive' : 'com.duytq.learning thrive',
+      'learning thrive',
     
       playSound: true,
       enableVibration: true,
       importance: Importance.max,
       priority: Priority.high,
     );
-    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    
     NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     print(remoteNotification);
 
@@ -273,13 +273,13 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> handleSignOut() async {
+  /* Future<void> handleSignOut() async {
     authProvider.handleSignOut();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => LoginPage()),
       (Route<dynamic> route) => false,
     );
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -287,10 +287,10 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(
            "Locate Tutor",
-          style: TextStyle(color: ColorConstants.primaryColor),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
         centerTitle: true,
-        actions: <Widget>[buildPopupMenu()],
+        //actions: <Widget>[buildPopupMenu()],
       ),
       body: WillPopScope(
         child: Stack(
@@ -369,7 +369,7 @@ class HomePageState extends State<HomePage> {
                 });
               },
               decoration: InputDecoration.collapsed(
-                hintText: 'Search nickname (you have to type exactly string)',
+                hintText: 'Search tutor',
                 hintStyle: TextStyle(fontSize: 13, color: ColorConstants.greyColor),
               ),
               style: TextStyle(fontSize: 13),
@@ -401,7 +401,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildPopupMenu() {
+  /* Widget buildPopupMenu() {
     return PopupMenuButton<PopupChoices>(
       onSelected: onItemMenuPress,
       itemBuilder: (BuildContext context) {
@@ -426,7 +426,7 @@ class HomePageState extends State<HomePage> {
         }).toList();
       },
     );
-  }
+  } */
 
   Widget buildItem(BuildContext context, DocumentSnapshot? document) {
     if (document != null) {
@@ -503,7 +503,7 @@ class HomePageState extends State<HomePage> {
                         ),
                         Container(
                           child: SmoothStarRating(
-                              rating: (userChat.rating),
+                              rating: (userChat.rating)+0.1,
                               isReadOnly: true,
                               allowHalfRating : false,
                               size: 20,

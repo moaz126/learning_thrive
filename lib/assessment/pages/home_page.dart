@@ -292,7 +292,7 @@ class showStudentforassessmentState extends State<showStudentforassessment> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Message",
+          "Upload Assessment",
           style: TextStyle(color: ColorConstants.primaryColor),
         ),
         centerTitle: true,
@@ -505,19 +505,7 @@ class showStudentforassessmentState extends State<showStudentforassessment> {
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         ),
-                        Container(
-                          child: SmoothStarRating(
-                              rating: userChat.rating,
-                              isReadOnly: true,
-                              size: 30,
-                              starCount: 5,
-                              color: Color.fromARGB(255, 34, 129, 238),
-                              borderColor: Color.fromARGB(255, 34, 129, 238) ,
-                              ),
-                          
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        ),
+                        
 
                       ],
                     ),

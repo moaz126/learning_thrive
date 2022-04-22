@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/TMessage/providers/schedule_provider.dart';
 import 'package:learning_thrive/screens/ScheduleMeeting/event.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_thrive/tutor_schedule/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../messaging/constants/firestore_constants.dart';
@@ -154,7 +156,7 @@ class _CalendarState extends State<schedule_meet> {
           ),
           ..._getEventsfromDay(selectedDay).map(
             (Event event) => ListTile(
-              title: Text(
+              /* title: Text(
                 event.title,
               ),
               subtitle: TextButton(
@@ -170,8 +172,27 @@ class _CalendarState extends State<schedule_meet> {
                 onPressed: () {
                   print('Pressed');
                 },
-              ),
+              ), */
             ),
+          ),
+          TextButton(
+            child: Text('Check Meetings'),
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              onSurface: Colors.white,
+              backgroundColor: Colors.lightBlue,
+              shadowColor: Colors.red,
+              elevation: 5,
+              padding: EdgeInsets.all(5.0),
+            ),
+            onPressed: () {
+              Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => gettutormeeting(),
+                                    ),
+                                  );
+            },
           ),
         ],
       ),
@@ -191,7 +212,7 @@ class _CalendarState extends State<schedule_meet> {
               TextButton(
                 child: Text("Ok"),
                 onPressed: () {
-                  if (_eventController.text.isEmpty) {
+                  /* if (_eventController.text.isEmpty) {
                   } else {
                     if (selectedEvents[selectedDay] != null) {
                       selectedEvents[selectedDay]!.add(
@@ -202,10 +223,11 @@ class _CalendarState extends State<schedule_meet> {
                         Event(title: _eventController.text)
                       ];
                     }
-                  }
+                  } */
 
                   scheduleProvider.sendSchedule(_eventController.text, 0,
                       groupChatId, currentUser.uid, peerId, selectedDay);
+                  Fluttertoast.showToast(msg: "Meeting Scheduled");
 
                   Navigator.pop(context);
                   _eventController.clear();

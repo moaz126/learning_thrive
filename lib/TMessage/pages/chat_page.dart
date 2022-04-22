@@ -717,7 +717,7 @@ class ChatPageState extends State<ChatPage> {
             ),
             color: Colors.white,
           ),
-          Material(
+          /* Material(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 1),
               child: IconButton(
@@ -743,7 +743,7 @@ class ChatPageState extends State<ChatPage> {
               ),
             ),
             color: Colors.white,
-          ),
+          ), */
 
           // Edit text
           Flexible(

@@ -6,7 +6,7 @@ import 'package:learning_thrive/model/firebase_file.dart';
 import 'package:learning_thrive/screens/Lecture_material/image_page.dart';
 
 class MyApp extends StatelessWidget {
-  static const String title = 'Lecture Materials';
+  static const String title = 'Assessments';
 
   const MyApp({Key? key}) : super(key: key);
 

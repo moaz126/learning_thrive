@@ -5,20 +5,15 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_thrive/messaging/constants/app_constants.dart';
-import 'package:learning_thrive/messaging/constants/color_constants.dart';
 import 'package:learning_thrive/messaging/constants/constants.dart';
 import 'package:learning_thrive/messaging/providers/providers.dart';
 import 'package:learning_thrive/messaging/utils/utils.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:learning_thrive/screens/Assesments/upload_assesments.dart';
-import 'package:learning_thrive/screens/Lecture_material/upload_files.dart';
 import 'package:provider/provider.dart';
-import 'package:learning_thrive/model/user_model.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+
 import 'dart:math' as math;
 
 import 'package:learning_thrive/model/models.dart';
@@ -137,9 +132,9 @@ class getmeetingState extends State<getmeeting> {
 
   void configLocalNotification() {
     AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-    IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
+    
     InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+        InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -170,9 +165,9 @@ class getmeetingState extends State<getmeeting> {
       importance: Importance.max,
       priority: Priority.high,
     );
-    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    
     NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     print(remoteNotification);
 
@@ -304,7 +299,7 @@ class getmeetingState extends State<getmeeting> {
             // List
             Column(
               children: [
-                buildSearchBar(),
+                //buildSearchBar(),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     //Get all tutors here fro pathTutorCollection
@@ -320,7 +315,7 @@ class getmeetingState extends State<getmeeting> {
                           );
                         } else {
                           return Center(
-                            child: Text("No users"),
+                            child: Text("No Meeting"),
                           );
                         }
                       } else {
@@ -375,7 +370,7 @@ class getmeetingState extends State<getmeeting> {
                 });
               },
               decoration: InputDecoration.collapsed(
-                hintText: 'Search nickname (you have to type exactly string)',
+                hintText: 'Search Meeting',
                 hintStyle: TextStyle(fontSize: 13, color: ColorConstants.greyColor),
               ),
               style: TextStyle(fontSize: 13),
@@ -466,7 +461,7 @@ class getmeetingState extends State<getmeeting> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${userChat.content}',
+                            'Title: ${userChat.content}',
                             maxLines: 1,
                             style: TextStyle(color: ColorConstants.primaryColor),
                           ),
@@ -475,7 +470,7 @@ class getmeetingState extends State<getmeeting> {
                         ),
                         Container(
                           child: Text(
-                            '${formattedDate}',
+                            'Date: ${formattedDate}',
                             maxLines: 1,
                             style: TextStyle(color: Util.randomOpaqueColor()),
                           ),

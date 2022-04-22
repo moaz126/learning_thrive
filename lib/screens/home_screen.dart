@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning_thrive/model/user_model.dart';
@@ -16,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:learning_thrive/screens/GoogleAPI/Locationn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import '../messaging/constants/color_constants.dart';
 import '../messaging/pages/home_page.dart';
 import 'Assesments/upload_assesments.dart';
 import 'Lecture_material/upload_files.dart';
@@ -159,7 +162,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Center(
+      body: WillPopScope(
+        onWillPop: onBackPress,
+        child:Center(
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Column(
@@ -182,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.centerRight,
                       child: RichText(
                         text: TextSpan(
-                            text: "Wednesday",
+                            text: "Thursday",
                             style: TextStyle(
                                 color: Color(0XFF263064),
                                 fontSize: 12,
@@ -343,8 +348,101 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
+      ),)
     );
+  }
+  Future<bool> onBackPress() {
+     openDialog();
+    return Future.value(false); 
+    
+    
+    
+
+    
+  }
+
+  Future<void> openDialog() async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            clipBehavior: Clip.hardEdge,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            contentPadding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                color: ColorConstants.themeColor,
+                padding: EdgeInsets.only(bottom: 10, top: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.exit_to_app,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      margin: EdgeInsets.only(bottom: 10),
+                    ),
+                    Text(
+                      'Exit app',
+                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Are you sure to exit app?',
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.cancel,
+                        color: ColorConstants.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10),
+                    ),
+                    Text(
+                      'Cancel',
+                      style: TextStyle(color: ColorConstants.primaryColor, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: ColorConstants.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10),
+                    ),
+                    Text(
+                      'Yes',
+                      style: TextStyle(color: ColorConstants.primaryColor, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        })) {
+      case 0:
+        break;
+      case 1:
+        exit(0);
+    }
   }
 
   // the logout function

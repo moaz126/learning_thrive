@@ -292,8 +292,8 @@ class showTutorforassessmentState extends State<showTutorforassessment> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Message",
-          style: TextStyle(color: ColorConstants.primaryColor),
+          "Upload Assessment",
+          style: TextStyle(color: Color.fromARGB(255, 253, 254, 255)),
         ),
         centerTitle: true,
         actions: <Widget>[buildPopupMenu()],
